@@ -79,6 +79,13 @@
   App.detail.init({ grid: els.grid });
   App.bag.init();
   App.motion.init({ grid: els.grid, spinButton: document.getElementById('spin-button') });
+  App.tour.init({
+    help: document.getElementById('shortcuts'),
+    spin: document.getElementById('spin-button'),
+    bag: document.getElementById('bag-button'),
+    theme: document.getElementById('theme-toggle'),
+    title: document.getElementById('title'),
+  });
   App.bag.subscribe(refresh);
 
   els.grid.addEventListener('click', (event) => {
