@@ -114,8 +114,32 @@
       </li>`;
   }
 
+  // Ids on screen after the previous render: only cards that newly appear get the
+  // (staggered) entrance animation, so toggling a heart doesn't replay the whole board.
+  // A card that entered moments ago (e.g. just before live rates re-rendered the grid)
+  // keeps its entrance so the animation isn't cut short.
+  const ENTRANCE_MS = 900;
+  let shownIds = new Set();
+  const enteredAt = new Map(); // id -> { i, t }
+
   function renderGrid(container, listings, query = '', pricing = null) {
     container.innerHTML = listings.map((l) => cardHtml(l, query, pricing)).join('');
+
+    const now = performance.now();
+    let next = 0;
+    container.querySelectorAll('.card').forEach((card) => {
+      const id = card.dataset.id;
+      let entry = enteredAt.get(id);
+      if (!shownIds.has(id)) {
+        entry = { i: Math.min(next++, 12), t: now };
+        enteredAt.set(id, entry);
+      } else if (!entry || now - entry.t > ENTRANCE_MS) {
+        return;
+      }
+      card.classList.add('is-entering');
+      card.style.setProperty('--i', entry.i);
+    });
+    shownIds = new Set(listings.map((l) => l.id));
   }
 
   App.view = { escapeHtml, highlight, formatMoney, timeAgo, priceHtml, mediaHtml, cardHtml, renderGrid };

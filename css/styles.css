@@ -318,7 +318,6 @@ mark { padding: 0 1px; background: var(--highlight); color: inherit; border-radi
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   transition: transform .15s ease, box-shadow .15s ease;
-  animation: card-in .25s ease both;
 }
 .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
 @keyframes card-in {
@@ -1052,3 +1051,57 @@ input[type="range"] { padding: 0; border: 0; background: none; box-shadow: none 
 .haggle-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
 .patience { font-size: .9rem; letter-spacing: .15em; color: var(--muted); }
 .haggle-form.is-over .patience { opacity: .5; }
+
+/* ---------- Board motion ---------- */
+
+.card.is-entering { animation: card-in .4s cubic-bezier(.2, .8, .3, 1) both; animation-delay: calc(var(--i, 0) * 45ms); }
+
+/* 3D tilt with a travelling glare (pointer: fine only — see motion.js) */
+.card { transform-style: preserve-3d; will-change: transform; }
+.card::before {
+  content: "";
+  position: absolute; inset: 0; z-index: 1;
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255, 244, 214, .35), transparent 55%);
+  opacity: 0;
+  transition: opacity .2s ease;
+  pointer-events: none;
+}
+.card.is-tilting {
+  rotate: 0deg;
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-4px);
+  transition: transform .08s linear, box-shadow .15s ease;
+  box-shadow: inset 0 0 0 4px var(--surface), inset 0 0 0 5px var(--border), var(--shadow-lg);
+}
+.card.is-tilting::before { opacity: 1; }
+
+/* Spin the wheel */
+.harbour-notice p { flex: 1; }
+.spin-btn {
+  display: inline-flex; align-items: center; gap: 8px; flex: none;
+  padding: 8px 14px;
+  font: 700 .92rem var(--font-display);
+  color: #2a1a0b;
+  background: radial-gradient(circle at 30% 25%, #fbe3a1, var(--gold));
+  border: 0; border-radius: 999px;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .25), 0 2px 6px rgba(0, 0, 0, .3);
+  cursor: pointer;
+  transition: transform .15s ease;
+}
+.spin-btn:hover { transform: translateY(-1px) scale(1.03); }
+.spin-btn:focus-visible { outline: 3px solid var(--header-ink); outline-offset: 2px; }
+.spin-wheel { display: inline-block; font-size: 1.2rem; line-height: 1; transition: transform .6s ease; }
+.spin-btn:hover .spin-wheel { transform: rotate(90deg); }
+.spin-btn.is-spinning .spin-wheel { animation: spin .5s linear infinite; }
+.spin-btn.is-spinning { pointer-events: none; }
+@media (max-width: 520px) {
+  .harbour-notice { flex-wrap: wrap; }
+  .spin-btn { width: 100%; justify-content: center; }
+}
+
+.card.is-spotlit {
+  rotate: 0deg;
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 0 0 4px var(--gold), 0 0 28px color-mix(in srgb, var(--gold) 70%, transparent);
+  transition: transform .1s ease, box-shadow .1s ease;
+  z-index: 3;
+}

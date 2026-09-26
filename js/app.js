@@ -78,6 +78,7 @@
   });
   App.detail.init({ grid: els.grid });
   App.bag.init();
+  App.motion.init({ grid: els.grid, spinButton: document.getElementById('spin-button') });
   App.bag.subscribe(refresh);
 
   els.grid.addEventListener('click', (event) => {
