@@ -5,7 +5,7 @@
 
   App.CATEGORIES = [
     { id: 'electronics', label: 'Navigation',       icon: '🔭', hue: 45 },
-    { id: 'furniture',   label: 'Chests & Barrels', icon: '🛢️', hue: 24 },
+    { id: 'furniture',   label: 'Chests & Coffers', icon: '💰', hue: 24 },
     { id: 'vehicles',    label: 'Ships & Dinghies', icon: '⛵', hue: 205 },
     { id: 'books',       label: 'Maps & Charts',    icon: '🗺️', hue: 80 },
     { id: 'clothing',    label: 'Garb & Hats',      icon: '🎩', hue: 330 },

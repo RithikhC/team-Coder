@@ -19,16 +19,16 @@
   function validate(data) {
     const errors = {};
 
-    if (!data.title) errors.title = 'Give your listing a title.';
-    else if (data.title.length < 3) errors.title = 'Title should be at least 3 characters.';
+    if (!data.title) errors.title = 'Every piece o’ loot needs a name, matey.';
+    else if (data.title.length < 3) errors.title = 'Name it proper — at least 3 letters.';
 
     const price = Number(data.price);
-    if (data.price === '') errors.price = 'Enter a price (use 0 for free items).';
-    else if (!Number.isFinite(price)) errors.price = 'Price must be a number.';
-    else if (price < 0) errors.price = 'Price can’t be negative.';
-    else if (price > MAX_PRICE) errors.price = 'That’s a bit much — keep it under 10 million.';
+    if (data.price === '') errors.price = 'Name yer price (0 if ye be givin’ it away).';
+    else if (!Number.isFinite(price)) errors.price = 'That be no number I ever saw.';
+    else if (price < 0) errors.price = 'A price can’t sink below the waterline.';
+    else if (price > MAX_PRICE) errors.price = 'Not even the King’s treasury holds that much — keep it under 10 million.';
 
-    if (!App.isCategory(data.category)) errors.category = 'Pick a category.';
+    if (!App.isCategory(data.category)) errors.category = 'Pick a hold to stow it in.';
 
     return errors;
   }
@@ -105,7 +105,7 @@
           const parts = targets
             .filter((code) => data.rates[code] != null)
             .map((code) => `<strong>${App.view.formatMoney(data.rates[code], code, { approx: true })}</strong>`);
-          previewEl.innerHTML = parts.length ? `Buyers abroad see ≈ ${parts.join(' · ')}` : '';
+          previewEl.innerHTML = parts.length ? `Pirates in far ports pay ≈ ${parts.join(' · ')}` : '';
         } catch {
           if (mine === seq) previewEl.textContent = '';
         }
@@ -150,8 +150,8 @@
       if (editingId) {
         const listing = App.store.update(editingId, data);
         stopEdit();
-        flash(`Saved changes to “${listing.title}”.`);
-        App.toast(`Updated “${listing.title}”.`, { timeout: 3000 });
+        flash(`Refitted “${listing.title}”.`);
+        App.toast(`“${listing.title}” refitted and back on the board.`, { timeout: 3000 });
         return;
       }
 
@@ -161,7 +161,7 @@
       currencySelect.value = lastCurrency; // sellers usually post several items in one currency
       preview.clear();
       form.elements.title.focus();
-      flash(`Posted “${listing.title}”.`);
+      flash(`Hoisted “${listing.title}” onto the board!`);
     });
 
     form.addEventListener('input', (event) => {
@@ -185,8 +185,8 @@
       form.elements.category.value = listing.category;
       form.elements.description.value = listing.description || '';
 
-      ui.heading.textContent = 'Edit listing';
-      ui.submit.textContent = 'Save changes';
+      ui.heading.textContent = 'Refit yer loot';
+      ui.submit.textContent = 'Seal the changes';
       ui.cancel.hidden = false;
       ui.panel.classList.add('is-editing');
       ui.panel.scrollIntoView({ behavior: 'smooth', block: 'start' });

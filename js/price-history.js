@@ -19,7 +19,7 @@
     section.className = 'detail-section';
     section.setAttribute('aria-labelledby', 'history-heading');
     section.innerHTML = `
-      <h3 id="history-heading">Cost in ${target} · last ${DAYS} days</h3>
+      <h3 id="history-heading">Bounty in ${target} · the last ${DAYS} tides</h3>
       <div class="skeleton spark-skeleton"></div>`;
     body.querySelector('#detail-actions').before(section);
 
@@ -38,7 +38,7 @@
     } catch {
       if (!section.isConnected) return;
       section.querySelector('.spark-skeleton').outerHTML =
-        '<p class="fx-note">Rate history is unavailable right now.</p>';
+        '<p class="fx-note">The ship’s log of past rates be missin’ right now.</p>';
     }
   });
 })(window.App = window.App || {});

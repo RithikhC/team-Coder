@@ -15,16 +15,16 @@
     App.detail.close();
     if (App.form.editingId === id) App.form.stopEdit();
 
-    App.toast(`Deleted “${removed.listing.title}”.`, {
-      action: { label: 'Undo', onClick: () => App.store.restore(removed) },
+    App.toast(`“${removed.listing.title}” walked the plank.`, {
+      action: { label: 'Fish it out!', onClick: () => App.store.restore(removed) },
     });
   }
 
   App.detail.onOpen.push((listing, body) => {
     body.querySelector('#detail-actions').insertAdjacentHTML('afterbegin', `
-      <button type="button" class="btn btn-danger-ghost" data-action="delete">Delete</button>
+      <button type="button" class="btn btn-danger-ghost" data-action="delete">Walk the plank</button>
       <span class="spacer"></span>
-      <button type="button" class="btn btn-ghost" data-action="edit">Edit</button>`);
+      <button type="button" class="btn btn-ghost" data-action="edit">Refit</button>`);
   });
 
   document.getElementById('detail').addEventListener('click', (event) => {

@@ -43,16 +43,16 @@
     statusEl.dataset.state = state.status;
 
     if (state.status === 'loading') {
-      statusEl.innerHTML = '<span class="spinner" aria-hidden="true"></span> Fetching live exchange rates…';
+      statusEl.innerHTML = '<span class="spinner" aria-hidden="true"></span> Sendin’ a parrot to the money-changer…';
     } else if (state.status === 'error') {
-      statusEl.innerHTML = `Couldn’t reach the Frankfurter rates service — showing each seller’s original price.
-        <button type="button" class="btn-link" data-action="retry-rates">Retry</button>`;
+      statusEl.innerHTML = `The money-changer’s ship be lost at sea (Frankfurter unreachable) — showin’ each seller’s own coin.
+        <button type="button" class="btn-link" data-action="retry-rates">Try again</button>`;
     } else {
       const date = formatRateDate(state.table.date);
       statusEl.innerHTML = state.status === 'stale'
-        ? `Offline — prices shown in <strong>${state.display}</strong> using saved rates from ${date}.
+        ? `Stranded offshore — countin’ in <strong>${state.display}</strong> with rates from ${date}.
            <button type="button" class="btn-link" data-action="retry-rates">Refresh</button>`
-        : `Prices shown in <strong>${state.display}</strong> · ECB reference rates for ${date} via
+        : `Coin counted in <strong>${state.display}</strong> · Harbour Master’s (ECB) rates for ${date}, ferried by
            <a href="https://frankfurter.dev" target="_blank" rel="noopener">Frankfurter</a>`;
     }
   }

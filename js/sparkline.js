@@ -73,9 +73,9 @@
     const stats = document.createElement('p');
     stats.className = 'spark-stats';
     stats.innerHTML = `
-      <span>Low <strong>${format(min)}</strong></span>
-      <span>High <strong>${format(max)}</strong></span>
-      <span class="spark-change is-${trend}">${change >= 0 ? '▲' : '▼'} ${Math.abs(change).toFixed(1)}% ${change >= 0 ? 'dearer' : 'cheaper'} than ${points.length} trading days ago</span>`;
+      <span>Low tide <strong>${format(min)}</strong></span>
+      <span>High tide <strong>${format(max)}</strong></span>
+      <span class="spark-change is-${trend}">${change >= 0 ? '▲' : '▼'} ${Math.abs(change).toFixed(1)}% ${change >= 0 ? 'dearer' : 'cheaper'} than ${points.length} tides ago</span>`;
 
     let active = points.length - 1;
     function show(i, withCursor) {

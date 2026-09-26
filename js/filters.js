@@ -83,13 +83,13 @@
     const savedCount = App.saved.count(listings);
     const savedChip = savedCount || state.saved
       ? `<button type="button" class="chip chip-saved" data-filter="saved" aria-pressed="${state.saved}">
-           <span aria-hidden="true">♥</span>Saved <span class="chip-count">${savedCount}</span>
+           <span aria-hidden="true">♥</span>Coveted <span class="chip-count">${savedCount}</span>
          </button><span class="chip-divider" aria-hidden="true"></span>`
       : '';
 
     container.innerHTML = [
       savedChip,
-      chip('all', 'All', '', listings.length),
+      chip('all', 'All loot', '', listings.length),
       ...App.CATEGORIES
         .filter((c) => counts[c.id] || state.category === c.id)
         .map((c) => chip(c.id, c.label, c.icon, counts[c.id] || 0)),

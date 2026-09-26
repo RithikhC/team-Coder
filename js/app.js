@@ -16,13 +16,13 @@
   };
 
   function describeResults(shown, total) {
-    const noun = total === 1 ? 'listing' : 'listings';
+    const noun = total === 1 ? 'piece o’ loot' : 'pieces o’ loot';
     if (!App.filters.isFiltered(state)) return `${total} ${noun}`;
 
     const { formatMoney } = App.view;
     const cur = App.pricing.display;
     const parts = [`${shown} of ${total} ${noun}`];
-    if (state.saved) parts.push('saved');
+    if (state.saved) parts.push('coveted');
     if (state.category !== 'all') parts.push(`in ${App.getCategory(state.category).label}`);
     if (state.query) parts.push(`matching “${state.query}”`);
     if (state.min !== null && state.max !== null) parts.push(`between ${formatMoney(state.min, cur)} and ${formatMoney(state.max, cur)}`);
@@ -73,7 +73,7 @@
     const saved = App.saved.toggle(id);
     // Re-rendering replaced the button; keep keyboard focus on the new one.
     els.grid.querySelector(`[data-id="${CSS.escape(id)}"] [data-action="save"]`)?.focus();
-    if (saved) App.toast('Saved — find it under ♥ Saved.', { timeout: 2500 });
+    if (saved) App.toast('Coveted! Find it under ♥ Coveted.', { timeout: 2500 });
   });
 
   els.empty.addEventListener('click', (event) => {

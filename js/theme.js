@@ -13,9 +13,11 @@
 
   function apply(theme, button) {
     root.dataset.theme = theme;
-    const next = theme === 'dark' ? 'light' : 'dark';
-    button.setAttribute('aria-label', `Switch to ${next} theme`);
-    button.title = `Switch to ${next} theme`;
+    const label = theme === 'dark'
+      ? 'Douse the lanterns (switch to daylight theme)'
+      : 'Light the lanterns (switch to night-watch theme)';
+    button.setAttribute('aria-label', label);
+    button.title = label;
     document.querySelector('meta[name="theme-color"]')
       ?.setAttribute('content', getComputedStyle(root).getPropertyValue('--surface').trim());
   }

@@ -41,7 +41,7 @@
     const close = document.createElement('button');
     close.type = 'button';
     close.className = 'toast-close';
-    close.setAttribute('aria-label', 'Dismiss notification');
+    close.setAttribute('aria-label', 'Dismiss message');
     close.textContent = '✕';
     close.addEventListener('click', dismiss);
     el.append(close);

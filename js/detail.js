@@ -24,7 +24,7 @@
     body.innerHTML = `
       <div class="detail-hero" style="--hue:${cat.hue}">
         <span aria-hidden="true">${cat.icon}</span>
-        <button type="button" class="dialog-close" data-action="close" aria-label="Close">✕</button>
+        <button type="button" class="dialog-close" data-action="close" aria-label="Back to the board">✕</button>
       </div>
       <div class="detail-content">
         <span class="card-cat" style="--hue:${cat.hue}">${escapeHtml(cat.label)}</span>
@@ -33,11 +33,11 @@
 
         <div class="detail-price">
           <span class="price">${formatMoney(listing.price, listing.currency)}</span>
-          <span class="detail-meta">listed in ${listing.currency} · posted ${timeAgo(listing.createdAt)}</span>
+          <span class="detail-meta">asked in ${listing.currency} · hoisted ${timeAgo(listing.createdAt)}</span>
         </div>
 
         <section class="detail-section" aria-labelledby="fx-heading">
-          <h3 id="fx-heading">In other currencies</h3>
+          <h3 id="fx-heading">In foreign coin</h3>
           <ul class="fx-list" id="fx-list">
             ${targets.map(() => '<li class="skeleton"></li>').join('')}
           </ul>
@@ -45,7 +45,7 @@
         </section>
 
         <div class="dialog-actions" id="detail-actions">
-          <button type="button" class="btn btn-ghost" data-action="close">Close</button>
+          <button type="button" class="btn btn-ghost" data-action="close">Back to the board</button>
         </div>
       </div>`;
   }
@@ -67,11 +67,11 @@
             <span class="fx-value">${App.view.formatMoney(data.rates[code], code, { approx: true })}</span>
           </li>`)
         .join('');
-      note.textContent = `Converted by Frankfurter at ECB reference rates for ${data.date}.`;
+      note.textContent = `Exchanged by Frankfurter at the Harbour Master’s (ECB) rates for ${data.date}.`;
     } catch {
       if (mine !== quoteSeq) return;
       list.innerHTML = '';
-      note.textContent = 'Live conversion is unavailable right now — check your connection.';
+      note.textContent = 'The money-changer’s shut — no foreign coin quotes till the fog lifts.';
     }
   }
 

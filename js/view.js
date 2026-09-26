@@ -58,8 +58,8 @@
     if (converted === null) return `<span class="price">${original}</span>`;
     return `
       <span class="price-stack">
-        <span class="price" title="Converted from ${original} at ECB rates">≈ ${formatMoney(converted, pricing.display, { approx: true })}</span>
-        <span class="price-original">${original} listed</span>
+        <span class="price" title="Exchanged from ${original} at the Harbour Master’s rates">≈ ${formatMoney(converted, pricing.display, { approx: true })}</span>
+        <span class="price-original">${original} asked</span>
       </span>`;
   }
 
@@ -67,8 +67,8 @@
     const saved = App.saved.has(listing.id);
     return `
       <button type="button" class="save-btn" data-action="save" aria-pressed="${saved}"
-              aria-label="${saved ? 'Remove from saved' : 'Save'}: ${escapeHtml(listing.title)}"
-              title="${saved ? 'Saved' : 'Save for later'}">
+              aria-label="${saved ? 'Stop coveting' : 'Covet'}: ${escapeHtml(listing.title)}"
+              title="${saved ? 'Coveted' : 'Covet this loot'}">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.8 4.5c2.1 0 3.6 1.1 4.3 2.4h1.8c.7-1.3 2.2-2.4 4.3-2.4 3.8 0 5.9 3.9 4.4 7.3C19.5 16.4 12 21 12 21z"/></svg>
       </button>`;
   }
