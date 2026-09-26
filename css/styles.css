@@ -149,6 +149,10 @@ textarea { resize: vertical; }
 .price-row input { flex: 1; min-width: 0; }
 .currency-select { width: 96px; flex: none; font-weight: 600; }
 
+.price-preview { margin: 0; font-size: .82rem; color: var(--muted); }
+.price-preview:empty { display: none; }
+.price-preview strong { color: var(--text); font-weight: 700; }
+
 input:focus, select:focus, textarea:focus {
   outline: none;
   border-color: var(--primary);
