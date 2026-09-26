@@ -36,8 +36,12 @@
 
         <div class="field">
           <label for="price">Price</label>
-          <input id="price" name="price" type="number" min="0" step="0.01" required
-                 inputmode="decimal" placeholder="0.00">
+          <div class="price-row">
+            <input id="price" name="price" type="number" min="0" step="0.01" required
+                   inputmode="decimal" placeholder="0.00">
+            <label for="currency" class="visually-hidden">Currency</label>
+            <select id="currency" name="currency" class="currency-select"></select>
+          </div>
           <p class="error" data-error-for="price" aria-live="polite"></p>
         </div>
 

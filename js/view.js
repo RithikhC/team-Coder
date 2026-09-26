@@ -54,7 +54,7 @@
           <h3 class="card-title">${highlight(listing.title, query)}</h3>
           ${listing.description ? `<p class="card-desc">${highlight(listing.description, query)}</p>` : ''}
           <div class="card-foot">
-            <span class="price">${formatMoney(listing.price)}</span>
+            <span class="price">${formatMoney(listing.price, listing.currency)}</span>
             <time class="time" datetime="${posted.toISOString()}" title="${posted.toLocaleString()}">${timeAgo(listing.createdAt)}</time>
           </div>
         </div>

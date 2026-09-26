@@ -10,6 +10,7 @@
     return {
       title: get('title'),
       price: get('price'),
+      currency: get('currency'),
       category: get('category'),
       description: get('description'),
     };
@@ -50,9 +51,24 @@
     form.elements[name].setAttribute('aria-invalid', 'false');
   }
 
+  function fillCurrencies(select, list, preferred) {
+    const wanted = preferred || select.value || 'USD';
+    select.innerHTML = '';
+    Object.keys(list).sort().forEach((code) => {
+      const option = new Option(code, code);
+      option.title = list[code];
+      select.add(option);
+    });
+    select.value = list[wanted] ? wanted : 'USD';
+  }
+
   function init(form, statusEl) {
     const select = form.elements.category;
     App.CATEGORIES.forEach((c) => select.add(new Option(`${c.icon}  ${c.label}`, c.id)));
+
+    const currencySelect = form.elements.currency;
+    fillCurrencies(currencySelect, App.currency.FALLBACK_CURRENCIES, 'USD');
+    App.currency.currencies().then((list) => fillCurrencies(currencySelect, list));
 
     let statusTimer;
     function flash(message) {
@@ -74,7 +90,9 @@
       }
 
       const listing = App.store.add(data);
+      const lastCurrency = currencySelect.value;
       form.reset();
+      currencySelect.value = lastCurrency; // sellers usually post several items in one currency
       form.elements.title.focus();
       flash(`Posted “${listing.title}”.`);
     });
