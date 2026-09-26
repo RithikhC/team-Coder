@@ -147,6 +147,14 @@
         return;
       }
 
+      if (editingId) {
+        const listing = App.store.update(editingId, data);
+        stopEdit();
+        flash(`Saved changes to “${listing.title}”.`);
+        App.toast(`Updated “${listing.title}”.`, { timeout: 3000 });
+        return;
+      }
+
       const listing = App.store.add(data);
       const lastCurrency = currencySelect.value;
       form.reset();
@@ -159,7 +167,60 @@
     form.addEventListener('input', (event) => {
       if (event.target.getAttribute('aria-invalid') === 'true') clearFieldError(form, event.target.name);
     });
+
+    const ui = {
+      panel: form.closest('.post-panel'),
+      heading: document.getElementById('post-heading'),
+      submit: form.querySelector('[type="submit"]'),
+      cancel: document.getElementById('cancel-edit'),
+    };
+    const defaults = { heading: ui.heading.textContent, submit: ui.submit.textContent };
+
+    startEdit = (listing) => {
+      editingId = listing.id;
+      showErrors(form, {});
+      form.elements.title.value = listing.title;
+      form.elements.price.value = listing.price;
+      currencySelect.value = listing.currency;
+      form.elements.category.value = listing.category;
+      form.elements.description.value = listing.description || '';
+
+      ui.heading.textContent = 'Edit listing';
+      ui.submit.textContent = 'Save changes';
+      ui.cancel.hidden = false;
+      ui.panel.classList.add('is-editing');
+      ui.panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      form.elements.title.focus({ preventScroll: true });
+      preview.update();
+    };
+
+    stopEdit = () => {
+      editingId = null;
+      form.reset();
+      showErrors(form, {});
+      preview.clear();
+      ui.heading.textContent = defaults.heading;
+      ui.submit.textContent = defaults.submit;
+      ui.cancel.hidden = true;
+      ui.panel.classList.remove('is-editing');
+    };
+
+    ui.cancel.addEventListener('click', stopEdit);
+    form.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && editingId) stopEdit();
+    });
   }
 
-  App.form = { init, validate, suggestCurrency };
+  let editingId = null;
+  let startEdit = () => {};
+  let stopEdit = () => {};
+
+  App.form = {
+    init,
+    validate,
+    suggestCurrency,
+    startEdit: (listing) => startEdit(listing),
+    stopEdit: () => stopEdit(),
+    get editingId() { return editingId; },
+  };
 })(window.App = window.App || {});

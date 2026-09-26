@@ -83,6 +83,32 @@
       return listing;
     },
 
+    update(id, input) {
+      const index = listings.findIndex((l) => l.id === id);
+      if (index === -1) return null;
+      listings[index] = { ...listings[index], ...normalize(input), updatedAt: Date.now() };
+      persist();
+      emit();
+      return listings[index];
+    },
+
+    /** Removes a listing and returns what's needed to put it back exactly where it was. */
+    remove(id) {
+      const index = listings.findIndex((l) => l.id === id);
+      if (index === -1) return null;
+      const [listing] = listings.splice(index, 1);
+      persist();
+      emit();
+      return { listing, index };
+    },
+
+    restore({ listing, index }) {
+      if (listings.some((l) => l.id === listing.id)) return;
+      listings.splice(Math.min(index, listings.length), 0, listing);
+      persist();
+      emit();
+    },
+
     subscribe(fn) {
       listeners.add(fn);
       return () => listeners.delete(fn);

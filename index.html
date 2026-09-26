@@ -65,6 +65,7 @@
         </div>
 
         <button class="btn btn-primary btn-block" type="submit">Post listing</button>
+        <button class="btn btn-ghost btn-block cancel-edit" type="button" id="cancel-edit" hidden>Cancel editing</button>
         <p class="form-status" id="form-status" role="status"></p>
       </form>
     </aside>
@@ -106,6 +107,8 @@
     <div id="detail-body"></div>
   </dialog>
 
+  <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
   <footer class="site-footer">
     <div class="container">Built for Code &amp; Chaos · Team Coder</div>
   </footer>
@@ -120,6 +123,8 @@
   <script src="js/detail.js"></script>
   <script src="js/sparkline.js"></script>
   <script src="js/price-history.js"></script>
+  <script src="js/toast.js"></script>
+  <script src="js/manage.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
