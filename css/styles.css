@@ -188,7 +188,7 @@ h1, h2, h3 { font-family: var(--font-display); }
 .post-panel { position: sticky; top: 88px; }
 
 @media (max-width: 860px) {
-  .layout { grid-template-columns: 1fr; }
+  .layout { grid-template-columns: minmax(0, 1fr); }
   .post-panel { position: static; }
   .tagline { display: none; }
 }
@@ -271,7 +271,8 @@ input:focus, select:focus, textarea:focus {
 
 @media (max-width: 640px) {
   .price-range, .sort { flex: 1 1 100%; }
-  .price-range input { flex: 1; width: auto; }
+  .price-range { min-width: 0; }
+  .price-range input { flex: 1; width: auto; min-width: 0; }
 }
 
 .empty .btn { margin-top: 12px; }
@@ -937,6 +938,7 @@ input, select, textarea { background-color: color-mix(in srgb, var(--surface) 70
 /* Drawer: a dialog pinned to the right edge */
 .drawer {
   width: min(440px, 100vw);
+  max-width: 100vw;
   height: 100dvh; max-height: 100dvh;
   margin: 0 0 0 auto;
   display: none; flex-direction: column;
@@ -1172,3 +1174,12 @@ kbd {
   border-radius: 6px;
 }
 .help-tip { margin: 0; font-size: .88rem; font-style: italic; color: var(--muted); }
+
+/* Phones: header tools drop to their own row so nothing overflows */
+@media (max-width: 560px) {
+  .header-inner { flex-wrap: wrap; row-gap: 8px; padding-block: 10px; }
+  .header-tools { width: 100%; }
+  .site-header .currency-select { flex: 1; max-width: none; min-width: 0; }
+  .help-fab { right: 14px; bottom: 14px; width: 44px; height: 44px; }
+  .post-panel { scroll-margin-top: 130px; }
+}
