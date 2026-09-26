@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ListIt — Post & browse listings</title>
+  <meta name="description" content="ListIt: a lightweight marketplace to post and browse listings.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#listings">Skip to listings</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="./">
+        <span class="brand-mark" aria-hidden="true">L</span>
+        <span>ListIt</span>
+      </a>
+      <p class="tagline">Post it. Find it. Done.</p>
+    </div>
+  </header>
+
+  <main class="container layout">
+    <aside class="panel post-panel" aria-labelledby="post-heading">
+      <h2 id="post-heading">Post a listing</h2>
+      <p class="panel-sub">It takes ten seconds. No account needed.</p>
+
+      <form id="listing-form" novalidate>
+        <div class="field">
+          <label for="title">Title</label>
+          <input id="title" name="title" type="text" maxlength="80" required
+                 placeholder="e.g. Vintage road bike" autocomplete="off">
+          <p class="error" data-error-for="title" aria-live="polite"></p>
+        </div>
+
+        <div class="field">
+          <label for="price">Price</label>
+          <input id="price" name="price" type="number" min="0" step="0.01" required
+                 inputmode="decimal" placeholder="0.00">
+          <p class="error" data-error-for="price" aria-live="polite"></p>
+        </div>
+
+        <div class="field">
+          <label for="category">Category</label>
+          <select id="category" name="category" required>
+            <option value="">Choose a category…</option>
+          </select>
+          <p class="error" data-error-for="category" aria-live="polite"></p>
+        </div>
+
+        <div class="field">
+          <label for="description">Description <span class="optional">(optional)</span></label>
+          <textarea id="description" name="description" rows="3" maxlength="300"
+                    placeholder="Condition, size, pickup details…"></textarea>
+        </div>
+
+        <button class="btn btn-primary btn-block" type="submit">Post listing</button>
+        <p class="form-status" id="form-status" role="status"></p>
+      </form>
+    </aside>
+
+    <section class="browse" aria-labelledby="browse-heading">
+      <h2 id="browse-heading" class="visually-hidden">Browse listings</h2>
+
+      <div class="toolbar">
+        <div class="search">
+          <label for="search" class="visually-hidden">Search listings</label>
+          <input id="search" type="search" placeholder="Search listings…  (press / to focus)" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="chips" id="category-chips" role="group" aria-label="Filter by category"></div>
+
+      <p class="result-count" id="result-count" aria-live="polite"></p>
+      <ul class="grid" id="listings"></ul>
+
+      <div class="empty" id="empty-state" hidden>
+        <p class="empty-title">No listings match.</p>
+        <p>Try a different search or category — or post the first one!</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">Built for Code &amp; Chaos · Team Coder</div>
+  </footer>
+</body>
+</html>
