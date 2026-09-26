@@ -44,6 +44,7 @@
     els.count.textContent = describeResults(visible.length, all.length);
   }
 
+  App.theme.init(document.getElementById('theme-toggle'));
   App.pricing.init({
     select: document.getElementById('display-currency'),
     statusEl: document.getElementById('rates-status'),
