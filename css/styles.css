@@ -816,3 +816,11 @@ input, select, textarea { background-color: color-mix(in srgb, var(--surface) 70
 .save-btn[aria-pressed="true"], .save-btn:hover { color: var(--primary); }
 .chip-saved[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); }
 .chip-saved > span[aria-hidden] { color: var(--primary); }
+
+/* ---------- Celebrations ---------- */
+
+.fx-canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 1000; pointer-events: none; }
+
+.icon-btn .icon-sound-off { display: none; }
+.icon-btn[aria-pressed="false"] .icon-sound-on { display: none; }
+.icon-btn[aria-pressed="false"] .icon-sound-off { display: block; }

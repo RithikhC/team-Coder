@@ -15,8 +15,15 @@
     App.detail.close();
     if (App.form.editingId === id) App.form.stopEdit();
 
+    App.fx.play('thud');
     App.toast(`“${removed.listing.title}” walked the plank.`, {
-      action: { label: 'Fish it out!', onClick: () => App.store.restore(removed) },
+      action: {
+        label: 'Fish it out!',
+        onClick: () => {
+          App.store.restore(removed);
+          App.fx.play('pop');
+        },
+      },
     });
   }
 

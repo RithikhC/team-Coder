@@ -55,6 +55,7 @@
   }
 
   App.theme.init(document.getElementById('theme-toggle'));
+  App.fx.initToggle(document.getElementById('sound-toggle'));
   App.pricing.init({
     select: document.getElementById('display-currency'),
     statusEl: document.getElementById('rates-status'),
@@ -81,6 +82,7 @@
     if (!button) return;
     const id = button.closest('[data-id]').dataset.id;
     const saved = App.saved.toggle(id);
+    App.fx.play(saved ? 'pop' : 'tick');
     // Re-rendering replaced the button; keep keyboard focus on the new one.
     els.grid.querySelector(`[data-id="${CSS.escape(id)}"] [data-action="save"]`)?.focus();
     if (saved) App.toast('Coveted! Find it under ♥ Coveted.', { timeout: 2500 });

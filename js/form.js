@@ -162,6 +162,7 @@
       preview.clear();
       form.elements.title.focus();
       flash(`Hoisted “${listing.title}” onto the board!`);
+      App.fx.celebrate(ui.submit);
     });
 
     form.addEventListener('input', (event) => {
