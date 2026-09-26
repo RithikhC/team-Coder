@@ -24,6 +24,28 @@
     return listings.filter((l) => matches(l, state));
   }
 
+  const SORTERS = {
+    newest: (a, b) => b.createdAt - a.createdAt,
+    oldest: (a, b) => a.createdAt - b.createdAt,
+  };
+
+  /**
+   * Price sorts compare the *converted* value, so €180 and £150 are ranked fairly.
+   * Listings whose price can't be converted yet always go last.
+   */
+  function sort(listings, mode, valueOf) {
+    if (SORTERS[mode]) return listings.slice().sort(SORTERS[mode]);
+
+    const dir = mode === 'price-desc' ? -1 : 1;
+    return listings
+      .map((listing) => ({ listing, value: valueOf(listing) }))
+      .sort((a, b) => {
+        if (a.value === null || b.value === null) return (a.value === null) - (b.value === null);
+        return (a.value - b.value) * dir;
+      })
+      .map((entry) => entry.listing);
+  }
+
   function renderChips(container, listings, state) {
     const counts = listings.reduce((acc, l) => {
       acc[l.category] = (acc[l.category] || 0) + 1;
@@ -44,7 +66,13 @@
     ].join('');
   }
 
-  function init({ search, chips, state, onChange }) {
+  function init({ search, chips, sortSelect, state, onChange }) {
+    sortSelect.value = state.sort;
+    sortSelect.addEventListener('change', () => {
+      state.sort = sortSelect.value;
+      onChange();
+    });
+
     let debounce;
     search.addEventListener('input', () => {
       clearTimeout(debounce);
@@ -80,5 +108,5 @@
     });
   }
 
-  App.filters = { apply, renderChips, init, terms };
+  App.filters = { apply, sort, renderChips, init, terms };
 })(window.App = window.App || {});

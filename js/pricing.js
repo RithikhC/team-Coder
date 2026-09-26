@@ -103,6 +103,13 @@
       : null;
   }
 
+  /** A listing's price in the display currency, or null if it can't be converted yet. */
+  function valueOf(listing) {
+    if (listing.currency === state.display) return listing.price;
+    const ctx = context();
+    return ctx ? App.currency.toBase(ctx.table, listing.price, listing.currency) : null;
+  }
+
   function init(options) {
     els = { select: options.select, statusEl: options.statusEl };
     onChange = options.onChange;
@@ -119,5 +126,5 @@
     load();
   }
 
-  App.pricing = { init, context, get display() { return state.display; } };
+  App.pricing = { init, context, valueOf, get display() { return state.display; } };
 })(window.App = window.App || {});

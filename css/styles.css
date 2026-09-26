@@ -184,6 +184,8 @@ input:focus, select:focus, textarea:focus {
 
 .toolbar { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
 .search { flex: 1 1 260px; }
+.sort { flex: 0 0 190px; }
+@media (max-width: 520px) { .sort { flex-basis: 100%; } }
 
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
 

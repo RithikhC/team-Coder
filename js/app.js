@@ -2,7 +2,7 @@
 (function (App) {
   'use strict';
 
-  const state = App.state = { query: '', category: 'all' };
+  const state = App.state = { query: '', category: 'all', sort: 'newest' };
 
   const els = {
     grid: document.getElementById('listings'),
@@ -23,7 +23,7 @@
 
   function refresh() {
     const all = App.store.all();
-    const visible = App.filters.apply(all, state);
+    const visible = App.filters.sort(App.filters.apply(all, state), state.sort, App.pricing.valueOf);
 
     App.view.renderGrid(els.grid, visible, state.query, App.pricing.context());
     App.filters.renderChips(els.chips, all, state);
@@ -41,7 +41,13 @@
   });
   App.form.init(document.getElementById('listing-form'), document.getElementById('form-status'));
   App.form.suggestCurrency(App.pricing.display);
-  App.filters.init({ search: els.search, chips: els.chips, state, onChange: refresh });
+  App.filters.init({
+    search: els.search,
+    chips: els.chips,
+    sortSelect: document.getElementById('sort'),
+    state,
+    onChange: refresh,
+  });
   App.store.subscribe(refresh);
   refresh();
 })(window.App = window.App || {});

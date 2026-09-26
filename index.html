@@ -76,6 +76,15 @@
           <label for="search" class="visually-hidden">Search listings</label>
           <input id="search" type="search" placeholder="Search listings…  (press / to focus)" autocomplete="off">
         </div>
+        <div class="sort">
+          <label for="sort" class="visually-hidden">Sort listings</label>
+          <select id="sort">
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="price-asc">Price: low → high</option>
+            <option value="price-desc">Price: high → low</option>
+          </select>
+        </div>
       </div>
 
       <div class="rates-status" id="rates-status" role="status" aria-live="polite"></div>
