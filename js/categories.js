@@ -1,16 +1,17 @@
-/* Category definitions shared by the form, filters and cards. */
+/* Holds (categories) shared by the form, filters and cards.
+   Ids are stable storage keys; labels, icons and hues are the Plunder Port skin. */
 (function (App) {
   'use strict';
 
   App.CATEGORIES = [
-    { id: 'electronics', label: 'Electronics',   icon: '💻', hue: 225 },
-    { id: 'furniture',   label: 'Furniture',     icon: '🛋️', hue: 28 },
-    { id: 'vehicles',    label: 'Vehicles',      icon: '🚗', hue: 0 },
-    { id: 'books',       label: 'Books',         icon: '📚', hue: 265 },
-    { id: 'clothing',    label: 'Clothing',      icon: '👕', hue: 320 },
-    { id: 'home',        label: 'Home & Garden', icon: '🪴', hue: 140 },
-    { id: 'sports',      label: 'Sports',        icon: '⚽', hue: 190 },
-    { id: 'other',       label: 'Other',         icon: '📦', hue: 45 },
+    { id: 'electronics', label: 'Navigation',       icon: '🔭', hue: 45 },
+    { id: 'furniture',   label: 'Chests & Barrels', icon: '🛢️', hue: 24 },
+    { id: 'vehicles',    label: 'Ships & Dinghies', icon: '⛵', hue: 205 },
+    { id: 'books',       label: 'Maps & Charts',    icon: '🗺️', hue: 80 },
+    { id: 'clothing',    label: 'Garb & Hats',      icon: '🎩', hue: 330 },
+    { id: 'home',        label: 'Grog & Grub',      icon: '🍺', hue: 140 },
+    { id: 'sports',      label: 'Blades & Cannons', icon: '⚔️', hue: 0 },
+    { id: 'other',       label: 'Curiosities',      icon: '🦜', hue: 170 },
   ];
 
   const byId = new Map(App.CATEGORIES.map((c) => [c.id, c]));

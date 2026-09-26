@@ -2,20 +2,22 @@
 (function (App) {
   'use strict';
 
-  const STORAGE_KEY = 'listit.listings.v1';
+  // New key for the Plunder Port reskin, so every crew starts with a fresh manifest of loot.
+  const STORAGE_KEY = 'plunderport.loot.v1';
   const HOUR = 60 * 60 * 1000;
   const DEFAULT_CURRENCY = 'USD';
 
   const SEED = [
-    { title: 'MacBook Air M2, 256GB', price: 749, currency: 'GBP', category: 'electronics', description: 'Barely used, battery cycle count 42. Comes with original charger and box.', age: 2 },
-    { title: 'Mid-century oak coffee table', price: 180, currency: 'EUR', category: 'furniture', description: 'Solid oak, minor scratches on one leg. Pickup only.', age: 5 },
-    { title: '2014 Honda Civic, 92k km', price: 7400, currency: 'USD', category: 'vehicles', description: 'Single owner, full service history, new tyres last spring.', age: 9 },
-    { title: 'Sony WH-1000XM4 headphones', price: 16500, currency: 'INR', category: 'electronics', description: 'Noise cancelling, black. Includes carry case.', age: 20 },
-    { title: 'Clean Code — Robert C. Martin', price: 18, currency: 'USD', category: 'books', description: 'Paperback, a few highlighted pages.', age: 26 },
-    { title: 'North Face puffer jacket (M)', price: 130, currency: 'CAD', category: 'clothing', description: 'Worn one winter, no tears.', age: 40 },
-    { title: 'Monstera deliciosa, ~1 m tall', price: 35, currency: 'EUR', category: 'home', description: 'Healthy and huge. Pot included.', age: 52 },
-    { title: 'Adjustable dumbbells 2–24 kg', price: 32000, currency: 'JPY', category: 'sports', description: 'Pair, quick-dial weight selector.', age: 70 },
-    { title: 'IKEA Billy bookcase, white', price: 450, currency: 'SEK', category: 'furniture', description: 'Already disassembled for easy transport.', age: 96 },
+    { title: 'Brass spyglass, 20× magnification', price: 340, currency: 'GBP', category: 'electronics', description: 'Spotted a Navy frigate three leagues off with it. Small dent on the eyepiece.', age: 2 },
+    { title: 'Iron-bound oak treasure chest', price: 1200, currency: 'EUR', category: 'furniture', description: 'Triple-locked, key included. Previous contents: none o’ yer business.', age: 5 },
+    { title: 'Sloop “Salty Maiden”, 40 ft', price: 48000, currency: 'USD', category: 'vehicles', description: 'Two masts, fresh tar, patched sails. Comes with one friendly ghost.', age: 9 },
+    { title: 'Map to Skull Isle — X clearly marked', price: 85000, currency: 'INR', category: 'books', description: 'Authentic (probably). Slight rum stain near the X.', age: 20 },
+    { title: 'Captain’s tricorn hat with plume', price: 220, currency: 'CAD', category: 'clothing', description: 'Survived three mutinies. Feather replaced only once.', age: 26 },
+    { title: 'Barrel of spiced Caribbean rum', price: 26000, currency: 'JPY', category: 'home', description: 'Aged twelve years in the hold. Keep well away from lit cannons.', age: 40 },
+    { title: 'Matched pair of flintlock pistols', price: 950, currency: 'CHF', category: 'sports', description: 'Velvet-lined case, powder horn included.', age: 52 },
+    { title: 'Parrot that squawks “pieces of eight”', price: 60, currency: 'USD', category: 'other', description: 'Also knows several words unfit for print.', age: 70 },
+    { title: 'Toledo-steel cutlass', price: 3100, currency: 'SEK', category: 'sports', description: 'Keen edge, barnacle-free, balanced for boarding actions.', age: 96 },
+    { title: 'Brass sextant & star almanac', price: 480, currency: 'AUD', category: 'electronics', description: 'Never once lost at sea while holdin’ it. Almanac good till 1799.', age: 120 },
   ];
 
   const listeners = new Set();
