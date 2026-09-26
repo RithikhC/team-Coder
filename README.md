@@ -1,7 +1,7 @@
 # ListIt — Team Coder · Code & Chaos
 
-A fast, zero-dependency listings marketplace: post items for sale and browse them with a
-search box and category filters.
+A fast, zero-dependency listings marketplace. Post items for sale in any currency, then browse,
+search and sort them with every price converted live into your own currency.
 
 ## Run it
 
@@ -23,16 +23,38 @@ Data is saved in your browser's `localStorage`, so listings stay after a refresh
   `/` to focus the search box and `Esc` to clear it.
 - Seed data on first load, so the app never looks empty.
 
+### Round 2: Frankfurter currency integration
+Currency conversion is built into posting, browsing and sorting.
+
+- **List in any currency.** Sellers choose from the 30+ currencies Frankfurter supports (the
+  list is fetched live from `/currencies`). Older listings are migrated to USD automatically.
+- **Browse in your currency.** A "Show prices in" picker in the header converts every card into
+  the viewer's currency, and each card still shows the seller's original price. The default
+  currency comes from your browser locale (e.g. `en-IN` → INR) and your choice is remembered.
+- **Fair cross-currency sorting.** "Price: low → high" compares the converted values, so
+  €180, £150 and ¥32,000 rank correctly against each other.
+- **Live seller preview.** While typing a price, sellers see what buyers abroad will pay
+  (`/latest?amount=…&from=…&to=…`), debounced so stale responses are dropped.
+- **Built to hold up when the network doesn't:**
+  - one `/latest?base=X` call converts the whole grid;
+  - rates are cached for 6 hours in memory and `localStorage`;
+  - identical requests share one fetch, and each request times out after 8 seconds;
+  - when offline, the app falls back to saved rates with a clear banner, or to original prices
+    with a Retry button.
+- The rates date (ECB reference rates) is always shown, with credit to Frankfurter.
+
 ## Project structure
 
 ```
 index.html          markup and layout
 css/styles.css      design tokens (CSS variables) and all styles
 js/categories.js    category definitions (label, icon, colour hue)
+js/currency.js      Frankfurter API client: rates, currency list, quotes, caching
+js/pricing.js       viewer's display currency, rate loading and status banner
 js/store.js         listing store: localStorage persistence and change events
 js/view.js          formatting helpers and card templates (HTML-escaped)
 js/form.js          post form: read, validate, submit
-js/filters.js       search and category filtering
+js/filters.js       search, category filtering and sorting
 js/app.js           bootstraps the modules and owns UI state
 ```
 
