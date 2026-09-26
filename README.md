@@ -1,7 +1,10 @@
-# ListIt — Team Coder · Code & Chaos
+# 🏴‍☠️ Plunder Port — Team Coder · Code & Chaos
 
-A fast, zero-dependency listings marketplace. Post items for sale in any currency, then browse,
-search and sort them with every price converted live into your own currency.
+**The pirate loot exchange.** Hoist yer loot on the harbour board in any coin. Every buccaneer
+browses, searches and sorts it with prices converted live into their own currency.
+
+> Rounds 1–3 built **ListIt**, a zero-dependency listings marketplace. Round 4 reskinned it as
+> Plunder Port without changing any behaviour (see the Round 4 section below).
 
 ## Run it
 
@@ -10,7 +13,9 @@ No build step and no install. Either:
 - **Double-click `index.html`**, or
 - serve the folder with any static server (e.g. `npx serve .`) and open the URL shown.
 
-Data is saved in your browser's `localStorage`, so listings stay after a refresh.
+Data is saved in your browser's `localStorage`, so loot stays on the board after a refresh.
+Live exchange rates need an internet connection. Offline, the app falls back to cached rates or
+to each seller's original price.
 
 ## Features
 
@@ -71,12 +76,58 @@ component libraries. The project has **zero dependencies**, and never had any.
   - `aria-pressed` toggles and live regions for results, errors and toasts;
   - visible focus rings, a skip link, and `prefers-reduced-motion` support.
 
+### Round 4: Reskin as "Plunder Port", a pirate loot exchange
+The listings app became a pirate harbour's loot board. Every feature works exactly as before;
+the visuals and copy are new.
+
+| Before (ListIt) | After (Plunder Port) |
+|---|---|
+| Post a listing | **Stash yer loot** → "⚓ Hoist the loot" |
+| Title / Price / Category / Description | Name o' the loot / Askin' price + Coin / Stow it in the… (hold) / Tale o' the loot |
+| Categories (Electronics, Furniture, …) | **Holds**: 🔭 Navigation, 💰 Chests & Coffers, ⛵ Ships & Dinghies, 🗺️ Maps & Charts, 🎩 Garb & Hats, 🍺 Grog & Grub, ⚔️ Blades & Cannons, 🦜 Curiosities |
+| Show prices in | **Count yer coin in**. Rates come from the "Harbour Master" (ECB) via Frankfurter |
+| Sort: Newest / Price | Freshest plunder · Oldest plunder · Cheapest first · Richest first |
+| Price range | **Bounty** from / to |
+| Saved ♥ | **Coveted** ♥ |
+| Edit / Delete / Undo | **Refit** / **Walk the plank** / **Fish it out!** |
+| Loading / offline banner | "Sendin' a parrot to the money-changer…" / "The money-changer's ship be lost at sea" |
+| 30-day price chart | "Bounty over the last 30 tides", with low and high tide |
+| Light / dark mode | **Daylight** (parchment and sealing wax) / **Night watch** (lantern gold, starry sky) |
+
+**Visual design**, all in hand-written CSS with no new libraries (the Round 3 rule still holds):
+
+- **Textures:**
+  - an SVG `feTurbulence` parchment grain with a vignette;
+  - a timber-plank header with brass trim;
+  - ledger panels with inked inner rules.
+- **Loot cards** styled as posters pinned to the board: slightly askew, with a "FOR TRADE"
+  stamp and sepia-toned art.
+- **Brand and buttons:** a wax-seal skull-and-crossbones logo (inline SVG) and sealing-wax
+  primary buttons.
+- **Harbour notice board:** a live summary, e.g. "10 pieces o' loot from 9 ports o' call". Each
+  port is a distinct seller currency.
+- **Small touches:**
+  - a ship's-wheel loading spinner;
+  - a fluttering flag;
+  - waves above the footer;
+  - stars over the harbour in night-watch mode.
+- A fresh manifest of seed loot: a brass spyglass, a sloop with a friendly ghost, a map to
+  Skull Isle and more. It is priced across 9 real currencies, so the conversion features show
+  from the first load.
+
+**How the reskin was contained:**
+
+- Design tokens (CSS custom properties) were swapped for the new palette, and a separate "skin"
+  layer was added at the end of `styles.css`.
+- Category ids stayed stable while labels, icons and hues changed.
+- Only user-facing strings changed in the JavaScript; no logic changed.
+
 ## Project structure
 
 ```
 index.html          markup and layout
-css/styles.css      design tokens (CSS variables) and all styles
-js/categories.js    category definitions (label, icon, colour hue)
+css/styles.css      design tokens (CSS variables), base styles and the Plunder Port skin layer
+js/categories.js    category ("hold") definitions (label, icon, colour hue)
 js/currency.js      Frankfurter API client: rates, currency list, quotes, caching
 js/pricing.js       viewer's display currency, rate loading and status banner
 js/store.js         listing store: localStorage persistence, CRUD and change events
