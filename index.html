@@ -93,6 +93,20 @@
                     placeholder="Where ye found it, what shape it’s in, which port to collect from…"></textarea>
         </div>
 
+        <div class="field">
+          <span class="label" id="photo-label">Portrait o’ the loot <span class="optional">(if ye have one)</span></span>
+          <div class="dropzone" id="photo-zone">
+            <input id="photo" type="file" accept="image/*" class="visually-hidden" aria-labelledby="photo-label">
+            <label for="photo" class="dropzone-prompt">
+              <span class="dropzone-icon" aria-hidden="true">🖼️</span>
+              <span><strong>Drop a picture</strong>, paste one, or click to choose</span>
+            </label>
+            <img class="dropzone-preview" id="photo-preview" alt="Preview of the loot’s portrait" hidden>
+            <button type="button" class="dropzone-remove" id="photo-remove" aria-label="Remove picture" hidden>✕</button>
+          </div>
+          <p class="error" id="photo-error" aria-live="polite"></p>
+        </div>
+
         <button class="btn btn-primary btn-block" type="submit">⚓&#xFE0E; Hoist the loot</button>
         <button class="btn btn-ghost btn-block cancel-edit" type="button" id="cancel-edit" hidden>Belay that — cancel</button>
         <p class="form-status" id="form-status" role="status"></p>
@@ -162,6 +176,7 @@
   <script src="js/store.js"></script>
   <script src="js/saved.js"></script>
   <script src="js/view.js"></script>
+  <script src="js/photo.js"></script>
   <script src="js/form.js"></script>
   <script src="js/filters.js"></script>
   <script src="js/pricing.js"></script>

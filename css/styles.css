@@ -824,3 +824,52 @@ input, select, textarea { background-color: color-mix(in srgb, var(--surface) 70
 .icon-btn .icon-sound-off { display: none; }
 .icon-btn[aria-pressed="false"] .icon-sound-on { display: none; }
 .icon-btn[aria-pressed="false"] .icon-sound-off { display: block; }
+
+/* ---------- Loot portraits ---------- */
+
+.label { font-size: .9rem; font-weight: 600; }
+
+.dropzone {
+  position: relative;
+  display: grid; place-items: center;
+  min-height: 92px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--surface-2) 60%, transparent);
+  border: 2px dashed var(--border); border-radius: var(--radius);
+  transition: border-color .15s, background .15s, transform .15s;
+}
+.dropzone:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+.dropzone.is-dragging { border-color: var(--primary); background: var(--primary-soft); transform: scale(1.02); }
+.dropzone.is-busy { opacity: .6; cursor: progress; }
+
+.dropzone-prompt {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  width: 100%; padding: 14px;
+  font-size: .85rem; font-weight: 400; text-align: center; color: var(--muted);
+  cursor: pointer;
+}
+.dropzone-prompt strong { color: var(--text); }
+.dropzone-icon { font-size: 1.6rem; }
+.dropzone.has-photo .dropzone-prompt { position: absolute; inset: 0; opacity: 0; }
+.dropzone.has-photo:hover .dropzone-prompt,
+.dropzone.has-photo:focus-within .dropzone-prompt { opacity: 1; background: rgba(20, 12, 4, .6); color: #fff; }
+.dropzone.has-photo:hover .dropzone-prompt strong { color: #fff; }
+
+.dropzone-preview { display: block; width: 100%; max-height: 180px; object-fit: cover; }
+
+.dropzone-remove {
+  position: absolute; top: 8px; right: 8px; z-index: 1;
+  width: 30px; height: 30px;
+  color: var(--text); background: var(--glass);
+  border: 0; border-radius: 50%;
+  cursor: pointer;
+}
+
+.card-media img,
+.detail-hero img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.card-media.has-photo, .detail-hero.has-photo { filter: sepia(.12) saturate(1.05); }
+.detail-hero.has-photo { height: 240px; }

@@ -51,6 +51,8 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(listings));
     } catch (err) {
       console.warn('Could not save listings.', err);
+      // Most likely the localStorage quota (photos are the heavy part) — let the UI explain.
+      window.dispatchEvent(new CustomEvent('store:save-failed'));
     }
   }
 
@@ -65,6 +67,7 @@
       currency: /^[A-Z]{3}$/.test(input.currency) ? input.currency : DEFAULT_CURRENCY,
       category: App.isCategory(input.category) ? input.category : 'other',
       description: String(input.description || '').trim(),
+      photo: App.photo?.isPhoto(input.photo) ? input.photo : '',
     };
   }
 

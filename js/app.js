@@ -95,6 +95,10 @@
     els.search.focus();
   });
 
+  window.addEventListener('store:save-failed', () => {
+    App.toast('The hold be full! That loot won’t survive a refresh — try a smaller picture or clear old loot.', { timeout: 8000 });
+  });
+
   App.saved.subscribe(refresh);
   App.store.subscribe(refresh);
   refresh();

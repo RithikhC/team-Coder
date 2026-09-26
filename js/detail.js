@@ -22,8 +22,8 @@
     const targets = quoteTargets(listing);
 
     body.innerHTML = `
-      <div class="detail-hero" style="--hue:${cat.hue}">
-        <span aria-hidden="true">${cat.icon}</span>
+      <div class="detail-hero${listing.photo ? ' has-photo' : ''}" style="--hue:${cat.hue}">
+        ${App.view.mediaHtml(listing, cat)}
         <button type="button" class="dialog-close" data-action="close" aria-label="Back to the board">✕</button>
       </div>
       <div class="detail-content">

@@ -127,6 +127,13 @@
     currencySelect.addEventListener('change', () => { currencyChosen = true; });
 
     const preview = createPricePreview(form, document.getElementById('price-preview'));
+    const photo = App.photo.initField({
+      zone: document.getElementById('photo-zone'),
+      input: document.getElementById('photo'),
+      preview: document.getElementById('photo-preview'),
+      removeButton: document.getElementById('photo-remove'),
+      errorEl: document.getElementById('photo-error'),
+    });
 
     let statusTimer;
     function flash(message) {
@@ -137,7 +144,7 @@
 
     form.addEventListener('submit', (event) => {
       event.preventDefault();
-      const data = read(form);
+      const data = { ...read(form), photo: photo.value };
       const errors = validate(data);
       showErrors(form, errors);
 
@@ -160,6 +167,7 @@
       form.reset();
       currencySelect.value = lastCurrency; // sellers usually post several items in one currency
       preview.clear();
+      photo.clear();
       form.elements.title.focus();
       flash(`Hoisted “${listing.title}” onto the board!`);
       App.fx.celebrate(ui.submit);
@@ -185,6 +193,7 @@
       currencySelect.value = listing.currency;
       form.elements.category.value = listing.category;
       form.elements.description.value = listing.description || '';
+      photo.set(listing.photo || '');
 
       ui.heading.textContent = 'Refit yer loot';
       ui.submit.textContent = 'Seal the changes';
@@ -200,6 +209,7 @@
       form.reset();
       showErrors(form, {});
       preview.clear();
+      photo.clear();
       ui.heading.textContent = defaults.heading;
       ui.submit.textContent = defaults.submit;
       ui.cancel.hidden = true;

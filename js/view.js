@@ -63,6 +63,13 @@
       </span>`;
   }
 
+  /** The seller's photo if they gave one (validated data: URL), otherwise the hold's icon. */
+  function mediaHtml(listing, cat = App.getCategory(listing.category)) {
+    return App.photo.isPhoto(listing.photo)
+      ? `<img src="${listing.photo}" alt="" loading="lazy" decoding="async">`
+      : `<span class="media-icon" aria-hidden="true">${cat.icon}</span>`;
+  }
+
   function saveButtonHtml(listing) {
     const saved = App.saved.has(listing.id);
     return `
@@ -78,7 +85,7 @@
     const posted = new Date(listing.createdAt);
     return `
       <li class="card" style="--hue:${cat.hue}" data-id="${escapeHtml(listing.id)}">
-        <div class="card-media" aria-hidden="true">${cat.icon}</div>
+        <div class="card-media${listing.photo ? ' has-photo' : ''}" aria-hidden="true">${mediaHtml(listing, cat)}</div>
         ${saveButtonHtml(listing)}
         <div class="card-body">
           <span class="card-cat">${escapeHtml(cat.label)}</span>
@@ -98,5 +105,5 @@
     container.innerHTML = listings.map((l) => cardHtml(l, query, pricing)).join('');
   }
 
-  App.view = { escapeHtml, highlight, formatMoney, timeAgo, priceHtml, cardHtml, renderGrid };
+  App.view = { escapeHtml, highlight, formatMoney, timeAgo, priceHtml, mediaHtml, cardHtml, renderGrid };
 })(window.App = window.App || {});
