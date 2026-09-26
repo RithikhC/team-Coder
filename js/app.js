@@ -16,6 +16,7 @@
     els.count.textContent = `${visible.length} listing${visible.length === 1 ? '' : 's'}`;
   }
 
+  App.form.init(document.getElementById('listing-form'), document.getElementById('form-status'));
   App.store.subscribe(refresh);
   refresh();
 })(window.App = window.App || {});
