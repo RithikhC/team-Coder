@@ -231,6 +231,14 @@
     countEl.hidden = n === 0;
     button.setAttribute('aria-label', `Open plunder bag (${n} item${n === 1 ? '' : 's'})`);
     if (drawer.open && !drawer.querySelector('.bag-receipt')) render();
+
+    // Keep the detail dialog's button honest when loot is stowed from elsewhere (e.g. a haggled deal).
+    const detailButton = document.querySelector('#detail [data-action="bag-toggle"]');
+    if (detailButton && App.detail.currentId) {
+      const inBag = bag.has(App.detail.currentId);
+      detailButton.setAttribute('aria-pressed', String(inBag));
+      detailButton.textContent = inBag ? '✓ In yer bag' : '🪙 Stow in bag';
+    }
   }
 
   function init() {
