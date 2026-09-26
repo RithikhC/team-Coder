@@ -1,151 +1,114 @@
-# 🏴‍☠️ Plunder Port — Team Coder · Code & Chaos
+# Plunder Port (Team Coder)
 
-**The pirate loot exchange.** Hoist yer loot on the harbour board in any coin. Every buccaneer
-browses, searches and sorts it with prices converted live into their own currency.
+Our Code & Chaos project. It started as **ListIt**, a simple listings marketplace, and after the
+round 4 twist it became **Plunder Port**, a pirate loot exchange. Same app underneath, new skin.
 
-> Rounds 1–3 built **ListIt**, a zero-dependency listings marketplace. Round 4 reskinned it as
-> Plunder Port without changing any behaviour (see the Round 4 section below).
+Plain HTML, CSS and JavaScript. No frameworks, no npm, no build step.
 
-## Run it
+**Live demo: https://rithikhc.github.io/team-Coder/**
 
-No build step and no install. Either:
+## Running it
 
-- **Double-click `index.html`**, or
-- serve the folder with any static server (e.g. `npx serve .`) and open the URL shown.
+It's deployed on GitHub Pages (link above). Every push to `main` redeploys it through
+`.github/workflows/pages.yml`.
 
-Data is saved in your browser's `localStorage`, so loot stays on the board after a refresh.
-Live exchange rates need an internet connection. Offline, the app falls back to cached rates or
-to each seller's original price.
-
-## Features
-
-### Round 1: Base build
-- **Post a listing**: title, price, category and an optional description, with inline validation
-  and accessible error messages.
-- **Browse** all listings in a responsive card grid, newest first, with relative timestamps.
-- **Filter by category** using chips that show live counts. Click a chip again to clear it.
-- **Keyword search** across title, description and category. Matches are highlighted; press
-  `/` to focus the search box and `Esc` to clear it.
-- Seed data on first load, so the app never looks empty.
-
-### Round 2: Frankfurter currency integration
-Currency conversion is built into posting, browsing and sorting.
-
-- **List in any currency.** Sellers choose from the 30+ currencies Frankfurter supports (the
-  list is fetched live from `/currencies`). Older listings are migrated to USD automatically.
-- **Browse in your currency.** A "Show prices in" picker in the header converts every card into
-  the viewer's currency, and each card still shows the seller's original price. The default
-  currency comes from your browser locale (e.g. `en-IN` → INR) and your choice is remembered.
-- **Fair cross-currency sorting.** "Price: low → high" compares the converted values, so
-  €180, £150 and ¥32,000 rank correctly against each other.
-- **Live seller preview.** While typing a price, sellers see what buyers abroad will pay
-  (`/latest?amount=…&from=…&to=…`), debounced so stale responses are dropped.
-- **Built to hold up when the network doesn't:**
-  - one `/latest?base=X` call converts the whole grid;
-  - rates are cached for 6 hours in memory and `localStorage`;
-  - identical requests share one fetch, and each request times out after 8 seconds;
-  - when offline, the app falls back to saved rates with a clear banner, or to original prices
-    with a Retry button.
-- The rates date (ECB reference rates) is always shown, with credit to Frankfurter.
-
-### Round 3: Vanilla-only features (no new libraries)
-Everything below uses native web platform APIs only: no packages, CSS frameworks or
-component libraries. The project has **zero dependencies**, and never had any.
-
-- **Listing detail dialog** built on the native `<dialog>` element (focus trap, `Esc`, backdrop
-  click to close, focus returns to the card). It quotes the price in six currencies, with the
-  viewer's own currency highlighted.
-- **30-day price history chart**, drawn by hand in SVG (`js/sparkline.js`). It shows what the
-  item has cost in the viewer's currency each day, using Frankfurter's time-series endpoint.
-  - Read any day by hovering, touching, or using the arrow keys (it's focusable).
-  - Low, high and percentage change are summarised underneath.
-- **Edit and delete listings.** Editing reuses the post form. Deleting shows an **Undo** toast
-  instead of a blocking `confirm()`, and undo restores the listing to its original position.
-- **Saved listings (watchlist).** A heart button on every card and a ♥ Saved filter chip,
-  persisted locally.
-- **Price-range filter** in the viewer's currency. It compares converted prices, so "under
-  CHF 100" works across every seller's currency.
-- **Shareable URLs.** Search, category, sort, price range and saved-only are synced to the URL
-  hash (e.g. `#cat=furniture&sort=price-asc&max=200`). Links restore the exact view, and
-  back/forward and hand-edited hashes work too.
-- **Dark mode.** It follows the OS setting by default, the toggle is remembered, and an inline
-  `<head>` script applies the theme before first paint (no white flash). Every colour is a CSS
-  custom property.
-- **Accessibility:**
-  - one tab stop per card (stretched link pattern);
-  - `aria-pressed` toggles and live regions for results, errors and toasts;
-  - visible focus rings, a skip link, and `prefers-reduced-motion` support.
-
-### Round 4: Reskin as "Plunder Port", a pirate loot exchange
-The listings app became a pirate harbour's loot board. Every feature works exactly as before;
-the visuals and copy are new.
-
-| Before (ListIt) | After (Plunder Port) |
-|---|---|
-| Post a listing | **Stash yer loot** → "⚓ Hoist the loot" |
-| Title / Price / Category / Description | Name o' the loot / Askin' price + Coin / Stow it in the… (hold) / Tale o' the loot |
-| Categories (Electronics, Furniture, …) | **Holds**: 🔭 Navigation, 💰 Chests & Coffers, ⛵ Ships & Dinghies, 🗺️ Maps & Charts, 🎩 Garb & Hats, 🍺 Grog & Grub, ⚔️ Blades & Cannons, 🦜 Curiosities |
-| Show prices in | **Count yer coin in**. Rates come from the "Harbour Master" (ECB) via Frankfurter |
-| Sort: Newest / Price | Freshest plunder · Oldest plunder · Cheapest first · Richest first |
-| Price range | **Bounty** from / to |
-| Saved ♥ | **Coveted** ♥ |
-| Edit / Delete / Undo | **Refit** / **Walk the plank** / **Fish it out!** |
-| Loading / offline banner | "Sendin' a parrot to the money-changer…" / "The money-changer's ship be lost at sea" |
-| 30-day price chart | "Bounty over the last 30 tides", with low and high tide |
-| Light / dark mode | **Daylight** (parchment and sealing wax) / **Night watch** (lantern gold, starry sky) |
-
-**Visual design**, all in hand-written CSS with no new libraries (the Round 3 rule still holds):
-
-- **Textures:**
-  - an SVG `feTurbulence` parchment grain with a vignette;
-  - a timber-plank header with brass trim;
-  - ledger panels with inked inner rules.
-- **Loot cards** styled as posters pinned to the board: slightly askew, with a "FOR TRADE"
-  stamp and sepia-toned art.
-- **Brand and buttons:** a wax-seal skull-and-crossbones logo (inline SVG) and sealing-wax
-  primary buttons.
-- **Harbour notice board:** a live summary, e.g. "10 pieces o' loot from 9 ports o' call". Each
-  port is a distinct seller currency.
-- **Small touches:**
-  - a ship's-wheel loading spinner;
-  - a fluttering flag;
-  - waves above the footer;
-  - stars over the harbour in night-watch mode.
-- A fresh manifest of seed loot: a brass spyglass, a sloop with a friendly ghost, a map to
-  Skull Isle and more. It is priced across 9 real currencies, so the conversion features show
-  from the first load.
-
-**How the reskin was contained:**
-
-- Design tokens (CSS custom properties) were swapped for the new palette, and a separate "skin"
-  layer was added at the end of `styles.css`.
-- Category ids stayed stable while labels, icons and hues changed.
-- Only user-facing strings changed in the JavaScript; no logic changed.
-
-## Project structure
+To run it locally, just open `index.html` in a browser. Or serve the folder if you prefer:
 
 ```
-index.html          markup and layout
-css/styles.css      design tokens (CSS variables), base styles and the Plunder Port skin layer
-js/categories.js    category ("hold") definitions (label, icon, colour hue)
-js/currency.js      Frankfurter API client: rates, currency list, quotes, caching
-js/pricing.js       viewer's display currency, rate loading and status banner
-js/store.js         listing store: localStorage persistence, CRUD and change events
-js/saved.js         saved-listings watchlist
-js/view.js          formatting helpers and card templates (HTML-escaped)
-js/form.js          post and edit form: read, validate, submit, live price preview
-js/filters.js       search, category, saved, price range, sorting, URL-hash sync
-js/detail.js        listing detail <dialog> with multi-currency quotes
-js/sparkline.js     dependency-free interactive SVG line chart
-js/price-history.js 30-day cost chart section for the detail dialog
-js/toast.js         toast notifications with Undo actions
-js/manage.js        edit and delete actions
-js/theme.js         light/dark theme toggle
-js/app.js           bootstraps the modules and owns UI state
+npx serve .
 ```
 
-Each module attaches itself to one `window.App` namespace, so plain `<script>` tags work, even
-from `file://`.
+Everything is saved in localStorage, so your loot is still there after a refresh. Exchange rates
+come from the Frankfurter API, so you need internet for live prices. If it's offline, the app
+uses the last rates it saved, or just shows each seller's own price.
+
+## Quick demo
+
+On first visit there's a short guided tour (you can replay it from the `?` button).
+
+Things worth trying:
+
+- Change "Count yer coin in" at the top. Every price on the board converts.
+- Open the sloop "Salty Maiden" and haggle. Offer 40% and the captain gets insulted, offer about
+  70% and he'll counter. Accept it and it goes into your bag at the lower price.
+- Open the bag (top right) to see everything totalled in your currency, and how much you saved.
+- Hit "Spin the wheel" for a random item.
+- Post something yourself. You can paste a screenshot straight in as the picture.
+- `?` shows keyboard shortcuts, `T` switches to night mode.
+
+## What we built each round
+
+### Round 1: base app
+- Post a listing with title, price, category and optional description (with validation)
+- Browse everything in a card grid, newest first
+- Filter by category (chips with counts) and keyword search with highlighting
+- Some seed listings so the page isn't empty on first load
+
+### Round 2: Frankfurter API
+We didn't want the converter to be a separate widget, so currency is part of the whole app:
+- Sellers pick the currency they're listing in
+- Buyers pick the currency they want to see, and every price gets converted
+- Sorting by price uses the converted values, so 450 SEK and 130 CAD compare correctly
+- While posting, sellers see roughly what buyers in other currencies will pay
+- Rates are cached for a few hours, requests time out after 8s, and there's a retry button if
+  the API can't be reached
+
+### Round 3: no new libraries
+We never used any libraries, so everything here is vanilla:
+- Detail popup (native `<dialog>`) showing the price in 6 currencies
+- 30-day price history chart, drawn with SVG by hand. Hover or use the arrow keys to see each day
+- Edit and delete, with an undo button instead of a confirm popup
+- Save items to a watchlist
+- Price range filter in your own currency
+- Filters are kept in the URL, so you can share a link to a filtered view
+- Dark mode that follows your system setting
+
+### Round 4: reskin
+The listings app became a pirate harbour loot board. Everything works the same, but the look and
+all the text changed:
+
+- Post a listing -> "Stash yer loot", categories -> holds (Navigation, Maps & Charts,
+  Ships & Dinghies, Blades & Cannons, ...), saved -> "coveted", delete -> "walk the plank",
+  undo -> "fish it out"
+- Parchment textures, a wooden header, wax-seal buttons, "FOR TRADE" stamps on the cards
+- Night mode became "night watch" with lantern colours and stars
+- New seed data (a spyglass, a treasure map, a sloop with a ghost, a parrot...)
+
+After the reskin we added a few more interactive things, still with no libraries:
+- **Haggling**: every seller has a hidden lowest price and limited patience. You can get
+  accepted, countered or insulted
+- **Plunder bag** (cart) that totals items from different currencies, and a checkout
+- **Photos** for listings (drag and drop, paste or pick a file). They get resized on a canvas so
+  they fit in localStorage
+- Coin shower animation and small sound effects made with the Web Audio API (there's a mute
+  button)
+- 3D tilt on the cards, and "Spin the wheel"
+- Guided tour and keyboard shortcuts
+- Checked on phone widths (320px and up)
+
+## Files
+
+```
+index.html
+css/styles.css        all styles; colours are CSS variables so the theme is easy to swap
+js/app.js             starts everything up and holds the filter state
+js/store.js           listings + localStorage
+js/currency.js        Frankfurter API calls and caching
+js/pricing.js         the "show prices in" currency and the rates banner
+js/filters.js         search, categories, price range, sorting, URL sync
+js/view.js            card HTML and formatting helpers
+js/form.js            post / edit form
+js/detail.js          detail popup
+js/sparkline.js       the SVG price chart
+js/price-history.js   30-day history section in the popup
+js/haggle.js          haggling
+js/bag.js             plunder bag / cart
+js/photo.js           image upload and resizing
+js/fx.js              coin animation and sounds
+js/motion.js          card tilt and spin the wheel
+js/tour.js            guided tour and shortcuts
+js/saved.js, toast.js, manage.js, theme.js, categories.js
+```
 
 ---
 
