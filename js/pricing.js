@@ -45,12 +45,12 @@
     if (state.status === 'loading') {
       statusEl.innerHTML = '<span class="spinner" aria-hidden="true">☸</span> Sendin’ a parrot to the money-changer…';
     } else if (state.status === 'error') {
-      statusEl.innerHTML = `The money-changer’s ship be lost at sea (Frankfurter unreachable) — showin’ each seller’s own coin.
+      statusEl.innerHTML = `The money-changer’s ship be lost at sea (Frankfurter unreachable) - showin’ each seller’s own coin.
         <button type="button" class="btn-link" data-action="retry-rates">Try again</button>`;
     } else {
       const date = formatRateDate(state.table.date);
       statusEl.innerHTML = state.status === 'stale'
-        ? `Stranded offshore — countin’ in <strong>${state.display}</strong> with rates from ${date}.
+        ? `Stranded offshore - countin’ in <strong>${state.display}</strong> with rates from ${date}.
            <button type="button" class="btn-link" data-action="retry-rates">Refresh</button>`
         : `Coin counted in <strong>${state.display}</strong> · Harbour Master’s (ECB) rates for ${date}, ferried by
            <a href="https://frankfurter.dev" target="_blank" rel="noopener">Frankfurter</a>`;
@@ -81,7 +81,7 @@
     const { select } = els;
     select.innerHTML = '';
     Object.keys(list).sort().forEach((code) => {
-      select.add(new Option(`${code} — ${list[code]}`, code));
+      select.add(new Option(`${code} - ${list[code]}`, code));
     });
     if (!list[state.display]) state.display = 'USD';
     select.value = state.display;

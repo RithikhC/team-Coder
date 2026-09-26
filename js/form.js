@@ -20,13 +20,13 @@
     const errors = {};
 
     if (!data.title) errors.title = 'Every piece o’ loot needs a name, matey.';
-    else if (data.title.length < 3) errors.title = 'Name it proper — at least 3 letters.';
+    else if (data.title.length < 3) errors.title = 'Name it proper - at least 3 letters.';
 
     const price = Number(data.price);
     if (data.price === '') errors.price = 'Name yer price (0 if ye be givin’ it away).';
     else if (!Number.isFinite(price)) errors.price = 'That be no number I ever saw.';
     else if (price < 0) errors.price = 'A price can’t sink below the waterline.';
-    else if (price > MAX_PRICE) errors.price = 'Not even the King’s treasury holds that much — keep it under 10 million.';
+    else if (price > MAX_PRICE) errors.price = 'Not even the King’s treasury holds that much - keep it under 10 million.';
 
     if (!App.isCategory(data.category)) errors.category = 'Pick a hold to stow it in.';
 

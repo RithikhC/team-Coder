@@ -11,7 +11,7 @@
     { title: 'Brass spyglass, 20× magnification', price: 340, currency: 'GBP', category: 'electronics', description: 'Spotted a Navy frigate three leagues off with it. Small dent on the eyepiece.', age: 2 },
     { title: 'Iron-bound oak treasure chest', price: 1200, currency: 'EUR', category: 'furniture', description: 'Triple-locked, key included. Previous contents: none o’ yer business.', age: 5 },
     { title: 'Sloop “Salty Maiden”, 40 ft', price: 48000, currency: 'USD', category: 'vehicles', description: 'Two masts, fresh tar, patched sails. Comes with one friendly ghost.', age: 9 },
-    { title: 'Map to Skull Isle — X clearly marked', price: 85000, currency: 'INR', category: 'books', description: 'Authentic (probably). Slight rum stain near the X.', age: 20 },
+    { title: 'Map to Skull Isle - X clearly marked', price: 85000, currency: 'INR', category: 'books', description: 'Authentic (probably). Slight rum stain near the X.', age: 20 },
     { title: 'Captain’s tricorn hat with plume', price: 220, currency: 'CAD', category: 'clothing', description: 'Survived three mutinies. Feather replaced only once.', age: 26 },
     { title: 'Barrel of spiced Caribbean rum', price: 26000, currency: 'JPY', category: 'home', description: 'Aged twelve years in the hold. Keep well away from lit cannons.', age: 40 },
     { title: 'Matched pair of flintlock pistols', price: 950, currency: 'CHF', category: 'sports', description: 'Velvet-lined case, powder horn included.', age: 52 },
@@ -51,7 +51,7 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(listings));
     } catch (err) {
       console.warn('Could not save listings.', err);
-      // Most likely the localStorage quota (photos are the heavy part) — let the UI explain.
+      // Most likely the localStorage quota (photos are the heavy part) - let the UI explain.
       window.dispatchEvent(new CustomEvent('store:save-failed'));
     }
   }

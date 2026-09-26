@@ -1,5 +1,5 @@
 /* Celebrations: a canvas coin shower and tiny synthesized sound effects.
-   No image or audio files — coins are drawn on a <canvas>, sounds are Web Audio oscillators. */
+   No image or audio files - coins are drawn on a <canvas>, sounds are Web Audio oscillators. */
 (function (App) {
   'use strict';
 

@@ -1,4 +1,4 @@
-/* Tiny interactive SVG line chart — no chart library.
+/* Tiny interactive SVG line chart - no chart library.
    Hover, touch or use the arrow keys to read any day's value. */
 (function (App) {
   'use strict';

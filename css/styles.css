@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Plunder Port — styles
+   Plunder Port - styles
    Design tokens live on :root so the whole app can be re-themed in one place.
    Daylight = sun-bleached parchment & sealing wax. Night watch = lantern light at sea.
    ========================================================================== */
@@ -603,7 +603,7 @@ body:has(.dialog[open]) { overflow: hidden; }
 }
 
 /* ==========================================================================
-   Plunder Port skin — parchment, timber and sealing wax
+   Plunder Port skin - parchment, timber and sealing wax
    ========================================================================== */
 
 body {
@@ -1058,7 +1058,7 @@ input[type="range"] { padding: 0; border: 0; background: none; box-shadow: none 
 
 .card.is-entering { animation: card-in .4s cubic-bezier(.2, .8, .3, 1) both; animation-delay: calc(var(--i, 0) * 45ms); }
 
-/* 3D tilt with a travelling glare (pointer: fine only — see motion.js) */
+/* 3D tilt with a travelling glare (pointer: fine only - see motion.js) */
 .card { transform-style: preserve-3d; will-change: transform; }
 .card::before {
   content: "";

@@ -71,7 +71,7 @@
     } catch {
       if (mine !== quoteSeq) return;
       list.innerHTML = '';
-      note.textContent = 'The money-changer’s shut — no foreign coin quotes till the fog lifts.';
+      note.textContent = 'The money-changer’s shut - no foreign coin quotes till the fog lifts.';
     }
   }
 

@@ -13,14 +13,14 @@
       const url = URL.createObjectURL(file);
       const img = new Image();
       img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
-      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('That picture be cursed — could not read it.')); };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('That picture be cursed - could not read it.')); };
       img.src = url;
     });
   }
 
   async function toDataUrl(file) {
-    if (!file || !file.type.startsWith('image/')) throw new Error('That be no picture, matey — images only.');
-    if (file.size > MAX_FILE_BYTES) throw new Error('Too heavy for the hold — keep pictures under 12 MB.');
+    if (!file || !file.type.startsWith('image/')) throw new Error('That be no picture, matey - images only.');
+    if (file.size > MAX_FILE_BYTES) throw new Error('Too heavy for the hold - keep pictures under 12 MB.');
 
     const img = await loadImage(file);
     const scale = Math.min(1, MAX_SIDE / Math.max(img.naturalWidth, img.naturalHeight));

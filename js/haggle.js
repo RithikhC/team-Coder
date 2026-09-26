@@ -20,14 +20,14 @@
   const LINES = {
     greet: [
       'Ahoy! {ask} be me price. Make me an offer, if ye dare.',
-      'Fine loot, this. {ask} and it’s yers — or try yer luck.',
+      'Fine loot, this. {ask} and it’s yers - or try yer luck.',
       'I’ll hear offers, landlubber. Askin’ {ask}.',
     ],
     full: ['Full price? Ha! An honest pirate. Done!', 'No haggling? Me kind o’ buyer. Deal!'],
     accept: [
       'Arr… ye drive a hard bargain. {offer} it is!',
-      'Blast ye, fine — {offer}. Don’t tell the crew.',
-      'Shake on it: {offer}. Pleasure robbin’— er, tradin’ with ye.',
+      'Blast ye, fine - {offer}. Don’t tell the crew.',
+      'Shake on it: {offer}. Pleasure robbin’- er, tradin’ with ye.',
     ],
     counter: [
       '{offer}? Ha! I’ll part with it for {counter}, not a doubloon less.',
@@ -39,7 +39,7 @@
       'For {offer} I’d sooner feed it to the sharks.',
       'Is that a price or a joke? {offer}… pah!',
     ],
-    walkAway: ['That’s it — I’ll not trade with the likes o’ ye today!', 'Enough! Off me deck before I call the crew.'],
+    walkAway: ['That’s it - I’ll not trade with the likes o’ ye today!', 'Enough! Off me deck before I call the crew.'],
     done: ['A deal’s a deal. It’s waitin’ in yer bag.'],
   };
 
@@ -197,7 +197,7 @@
     });
 
     counterBtn.addEventListener('click', () => {
-      post({ who: 'you', text: `Done — ${money(s.counter)}.` });
+      post({ who: 'you', text: `Done - ${money(s.counter)}.` });
       strike(s.counter, counterBtn);
     });
     range.addEventListener('input', syncFromRange);

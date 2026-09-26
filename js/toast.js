@@ -3,7 +3,7 @@
   'use strict';
 
   /**
-   * The region is a manual popover so toasts live in the top layer — above an open
+   * The region is a manual popover so toasts live in the top layer - above an open
    * <dialog>. Re-showing it moves it to the top of the stack after newer dialogs.
    */
   function setLayer(region, visible) {

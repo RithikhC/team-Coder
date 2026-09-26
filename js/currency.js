@@ -1,4 +1,4 @@
-/* Frankfurter currency API client (https://frankfurter.dev) — no key needed.
+/* Frankfurter currency API client (https://frankfurter.dev) - no key needed.
    Rates are cached in memory + localStorage, concurrent requests are de-duplicated,
    and a stale cached table is used as a fallback when the network fails. */
 (function (App) {
@@ -31,7 +31,7 @@
   function writeJson(key, value) {
     try {
       localStorage.setItem(key, JSON.stringify(value));
-    } catch { /* storage full or blocked — cache is best effort */ }
+    } catch { /* storage full or blocked - cache is best effort */ }
   }
 
   function getJson(url, timeoutMs = 8000) {

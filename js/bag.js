@@ -16,7 +16,7 @@
     }
   }
 
-  // Each entry: { id, price, currency, haggled } — price is what the buyer will pay,
+  // Each entry: { id, price, currency, haggled } - price is what the buyer will pay,
   // in the listing's own currency (lower than the ask if they haggled).
   let entries = load();
 
@@ -143,7 +143,7 @@
         <div class="bag-empty">
           <p class="bag-empty-icon" aria-hidden="true">🧺</p>
           <p><strong>Yer bag be empty.</strong></p>
-          <p>Tap the 🪙 on any loot to stow it here — or haggle with a seller first.</p>
+          <p>Tap the 🪙 on any loot to stow it here - or haggle with a seller first.</p>
         </div>`;
       return;
     }
@@ -178,7 +178,7 @@
           <p class="bag-also" id="bag-also"></p>
           ${saved > 0.005 ? `<p class="bag-saved">🦜 Ye saved <strong>${formatMoney(saved, display)}</strong> by hagglin’!</p>` : ''}
           <p class="bag-note">${items.length} piece${items.length === 1 ? '' : 's'} from ${ports} port${ports === 1 ? '' : 's'}, totalled in ${display} at the Harbour Master’s rates.</p>`
-        : '<p class="bag-note">No exchange rates right now — can’t total mixed coins. Try again when the fog lifts.</p>'}
+        : '<p class="bag-note">No exchange rates right now - can’t total mixed coins. Try again when the fog lifts.</p>'}
         <button type="button" class="btn btn-primary btn-block" data-action="checkout" ${convertible ? '' : 'disabled'}>
           Settle up with the Quartermaster
         </button>
@@ -198,7 +198,7 @@
         .filter((c) => data.rates[c] != null)
         .map((c) => App.view.formatMoney(data.rates[c], c, { approx: true }))
         .join(' · ');
-    } catch { /* optional extra — ignore */ }
+    } catch { /* optional extra - ignore */ }
   }
 
   function checkout(trigger) {
