@@ -2,6 +2,18 @@
 (function (App) {
   'use strict';
 
+  /**
+   * The region is a manual popover so toasts live in the top layer — above an open
+   * <dialog>. Re-showing it moves it to the top of the stack after newer dialogs.
+   */
+  function setLayer(region, visible) {
+    if (typeof region.showPopover !== 'function') return;
+    try {
+      if (region.matches(':popover-open')) region.hidePopover();
+      if (visible) region.showPopover();
+    } catch { /* unsupported or already in the requested state */ }
+  }
+
   function toast(message, { action, timeout = 6000 } = {}) {
     const region = document.getElementById('toasts');
     const el = document.createElement('div');
@@ -19,7 +31,10 @@
       gone = true;
       clearTimeout(timer);
       el.classList.add('is-leaving');
-      setTimeout(() => el.remove(), 200);
+      setTimeout(() => {
+        el.remove();
+        if (!region.childElementCount) setLayer(region, false);
+      }, 200);
     };
     const schedule = (ms) => {
       clearTimeout(timer);
@@ -53,6 +68,7 @@
     el.addEventListener('focusout', () => schedule(2500));
 
     region.append(el);
+    setLayer(region, true);
     schedule(timeout);
     return dismiss;
   }

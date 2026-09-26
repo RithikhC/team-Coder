@@ -70,6 +70,16 @@
       : `<span class="media-icon" aria-hidden="true">${cat.icon}</span>`;
   }
 
+  function bagButtonHtml(listing) {
+    const inBag = App.bag.has(listing.id);
+    return `
+      <button type="button" class="bag-add" data-action="bag" aria-pressed="${inBag}"
+              aria-label="${inBag ? 'Take out of plunder bag' : 'Stow in plunder bag'}: ${escapeHtml(listing.title)}"
+              title="${inBag ? 'In yer bag' : 'Stow in bag'}">
+        <span aria-hidden="true">${inBag ? '✓' : '🪙'}</span>
+      </button>`;
+  }
+
   function saveButtonHtml(listing) {
     const saved = App.saved.has(listing.id);
     return `
@@ -88,14 +98,17 @@
         <div class="card-media${listing.photo ? ' has-photo' : ''}" aria-hidden="true">${mediaHtml(listing, cat)}</div>
         ${saveButtonHtml(listing)}
         <div class="card-body">
-          <span class="card-cat">${escapeHtml(cat.label)}</span>
+          <div class="card-meta">
+            <span class="card-cat">${escapeHtml(cat.label)}</span>
+            <time class="time" datetime="${posted.toISOString()}" title="${posted.toLocaleString()}">${timeAgo(listing.createdAt)}</time>
+          </div>
           <h3 class="card-title">
             <button type="button" class="card-open" data-action="open">${highlight(listing.title, query)}</button>
           </h3>
           ${listing.description ? `<p class="card-desc">${highlight(listing.description, query)}</p>` : ''}
           <div class="card-foot">
             ${priceHtml(listing, pricing)}
-            <time class="time" datetime="${posted.toISOString()}" title="${posted.toLocaleString()}">${timeAgo(listing.createdAt)}</time>
+            ${bagButtonHtml(listing)}
           </div>
         </div>
       </li>`;

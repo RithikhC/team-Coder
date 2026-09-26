@@ -50,6 +50,7 @@
     App.filters.writeHash(state);
     els.rangeCurrency.textContent = App.pricing.display;
     els.notice.textContent = harbourNotice(all);
+    App.bag.sync();
     els.empty.hidden = visible.length > 0;
     els.count.textContent = describeResults(visible.length, all.length);
   }
@@ -76,6 +77,16 @@
     onChange: refresh,
   });
   App.detail.init({ grid: els.grid });
+  App.bag.init();
+  App.bag.subscribe(refresh);
+
+  els.grid.addEventListener('click', (event) => {
+    const bagButton = event.target.closest('[data-action="bag"]');
+    if (!bagButton) return;
+    const id = bagButton.closest('[data-id]').dataset.id;
+    App.bag.toggle(App.store.get(id), bagButton);
+    els.grid.querySelector(`[data-id="${CSS.escape(id)}"] [data-action="bag"]`)?.focus();
+  });
 
   els.grid.addEventListener('click', (event) => {
     const button = event.target.closest('[data-action="save"]');
