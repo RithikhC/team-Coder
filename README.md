@@ -1,3 +1,46 @@
+# ListIt — Team Coder · Code & Chaos
+
+A fast, zero-dependency listings marketplace: post items for sale and browse them with a
+search box and category filters.
+
+## Run it
+
+No build step and no install. Either:
+
+- **Double-click `index.html`**, or
+- serve the folder with any static server (e.g. `npx serve .`) and open the URL shown.
+
+Data is saved in your browser's `localStorage`, so listings stay after a refresh.
+
+## Features
+
+### Round 1: Base build
+- **Post a listing**: title, price, category and an optional description, with inline validation
+  and accessible error messages.
+- **Browse** all listings in a responsive card grid, newest first, with relative timestamps.
+- **Filter by category** using chips that show live counts. Click a chip again to clear it.
+- **Keyword search** across title, description and category. Matches are highlighted; press
+  `/` to focus the search box and `Esc` to clear it.
+- Seed data on first load, so the app never looks empty.
+
+## Project structure
+
+```
+index.html          markup and layout
+css/styles.css      design tokens (CSS variables) and all styles
+js/categories.js    category definitions (label, icon, colour hue)
+js/store.js         listing store: localStorage persistence and change events
+js/view.js          formatting helpers and card templates (HTML-escaped)
+js/form.js          post form: read, validate, submit
+js/filters.js       search and category filtering
+js/app.js           bootstraps the modules and owns UI state
+```
+
+Each module attaches itself to one `window.App` namespace, so plain `<script>` tags work, even
+from `file://`.
+
+---
+
 # Code & Chaos — Base Repo
 
 This is the starter repo for **Code & Chaos**, an hourly-twist coding challenge. Fork this repo and build on it throughout the event.
