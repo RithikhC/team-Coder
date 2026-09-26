@@ -387,6 +387,34 @@ body:has(.dialog[open]) { overflow: hidden; }
 }
 @keyframes shimmer { to { background-position: -200% 0; } }
 
+/* ---------- Sparkline ---------- */
+
+.spark { display: flex; flex-direction: column; gap: 6px; }
+.spark-skeleton { height: 150px; }
+
+.spark-readout { display: flex; justify-content: space-between; gap: 8px; margin: 0; font-size: .88rem; color: var(--muted); }
+.spark-readout strong { font-size: 1rem; color: var(--text); }
+
+.spark-svg {
+  display: block; width: 100%; height: auto;
+  border-radius: var(--radius-sm);
+  touch-action: pan-y;
+  color: var(--primary);
+  cursor: crosshair;
+}
+.spark-svg:focus-visible { outline: 3px solid var(--primary-soft); outline-offset: 2px; }
+
+.spark-line { fill: none; stroke: currentColor; stroke-width: 2.25; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.spark-cursor { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0; vector-effect: non-scaling-stroke; }
+.spark-cursor.is-visible { opacity: 1; }
+.spark-dot { fill: var(--surface); stroke: currentColor; stroke-width: 2.5; vector-effect: non-scaling-stroke; }
+
+.spark-stats { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0; font-size: .8rem; color: var(--muted); }
+.spark-stats strong { color: var(--text); }
+.spark-change { margin-left: auto; font-weight: 700; }
+.spark-change.is-up { color: var(--danger); }   /* costs the buyer more */
+.spark-change.is-down { color: var(--success); } /* costs the buyer less */
+
 .dialog-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; padding-top: 6px; }
 
 .btn-ghost { color: var(--text); background: transparent; border-color: var(--border); }

@@ -104,5 +104,23 @@
     return getJson(`${API}/latest?amount=${encodeURIComponent(amount)}&from=${from}&to=${to}`);
   }
 
-  App.currency = { API, FALLBACK_CURRENCIES, currencies, rates, toBase, quote };
+  const isoDate = (d) => d.toISOString().slice(0, 10);
+  const historyCache = new Map();
+
+  /** Daily rates for 1 `from` in `to` over the last `days` days: [{ date, rate }, ...]. */
+  async function history(from, to, days = 30) {
+    const start = isoDate(new Date(Date.now() - days * 24 * 60 * 60 * 1000));
+    const key = `${from}>${to}@${start}`;
+    if (historyCache.has(key)) return historyCache.get(key);
+
+    const data = await getJson(`${API}/${start}..?base=${from}&symbols=${to}`);
+    const points = Object.entries(data.rates)
+      .map(([date, r]) => ({ date, rate: r[to] }))
+      .filter((p) => typeof p.rate === 'number')
+      .sort((a, b) => (a.date < b.date ? -1 : 1));
+    historyCache.set(key, points);
+    return points;
+  }
+
+  App.currency = { API, FALLBACK_CURRENCIES, currencies, rates, toBase, quote, history };
 })(window.App = window.App || {});
