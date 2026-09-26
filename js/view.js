@@ -30,7 +30,20 @@
     return 'just now';
   }
 
-  function cardHtml(listing) {
+  const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+  /* Escapes text and wraps search-term matches in <mark>. */
+  function highlight(text, query) {
+    const words = query ? App.filters.terms(query) : [];
+    if (!words.length) return escapeHtml(text);
+    const pattern = new RegExp(`(${words.map(escapeRegExp).join('|')})`, 'gi');
+    return String(text)
+      .split(pattern)
+      .map((part, i) => (i % 2 ? `<mark>${escapeHtml(part)}</mark>` : escapeHtml(part)))
+      .join('');
+  }
+
+  function cardHtml(listing, query) {
     const cat = App.getCategory(listing.category);
     const posted = new Date(listing.createdAt);
     return `
@@ -38,8 +51,8 @@
         <div class="card-media" aria-hidden="true">${cat.icon}</div>
         <div class="card-body">
           <span class="card-cat">${escapeHtml(cat.label)}</span>
-          <h3 class="card-title">${escapeHtml(listing.title)}</h3>
-          ${listing.description ? `<p class="card-desc">${escapeHtml(listing.description)}</p>` : ''}
+          <h3 class="card-title">${highlight(listing.title, query)}</h3>
+          ${listing.description ? `<p class="card-desc">${highlight(listing.description, query)}</p>` : ''}
           <div class="card-foot">
             <span class="price">${formatMoney(listing.price)}</span>
             <time class="time" datetime="${posted.toISOString()}" title="${posted.toLocaleString()}">${timeAgo(listing.createdAt)}</time>
@@ -48,9 +61,9 @@
       </li>`;
   }
 
-  function renderGrid(container, listings) {
-    container.innerHTML = listings.map(cardHtml).join('');
+  function renderGrid(container, listings, query = '') {
+    container.innerHTML = listings.map((l) => cardHtml(l, query)).join('');
   }
 
-  App.view = { escapeHtml, formatMoney, timeAgo, cardHtml, renderGrid };
+  App.view = { escapeHtml, highlight, formatMoney, timeAgo, cardHtml, renderGrid };
 })(window.App = window.App || {});
