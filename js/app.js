@@ -13,7 +13,16 @@
     search: document.getElementById('search'),
     chips: document.getElementById('category-chips'),
     rangeCurrency: document.getElementById('range-currency'),
+    notice: document.getElementById('harbour-notice'),
   };
+
+  function harbourNotice(all) {
+    if (!all.length) return 'The board be bare. Stash the first piece o’ loot!';
+    const ports = new Set(all.map((l) => l.currency)).size;
+    const newest = all.reduce((a, b) => (a.createdAt > b.createdAt ? a : b));
+    return `${all.length} pieces o’ loot from ${ports} port${ports === 1 ? '' : 's'} o’ call. `
+      + `Freshest plunder: “${newest.title}”.`;
+  }
 
   function describeResults(shown, total) {
     const noun = total === 1 ? 'piece o’ loot' : 'pieces o’ loot';
@@ -40,6 +49,7 @@
     App.filters.renderChips(els.chips, all, state);
     App.filters.writeHash(state);
     els.rangeCurrency.textContent = App.pricing.display;
+    els.notice.textContent = harbourNotice(all);
     els.empty.hidden = visible.length > 0;
     els.count.textContent = describeResults(visible.length, all.length);
   }

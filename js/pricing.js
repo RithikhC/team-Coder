@@ -43,7 +43,7 @@
     statusEl.dataset.state = state.status;
 
     if (state.status === 'loading') {
-      statusEl.innerHTML = '<span class="spinner" aria-hidden="true"></span> Sendin’ a parrot to the money-changer…';
+      statusEl.innerHTML = '<span class="spinner" aria-hidden="true">☸</span> Sendin’ a parrot to the money-changer…';
     } else if (state.status === 'error') {
       statusEl.innerHTML = `The money-changer’s ship be lost at sea (Frankfurter unreachable) — showin’ each seller’s own coin.
         <button type="button" class="btn-link" data-action="retry-rates">Try again</button>`;
