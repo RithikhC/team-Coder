@@ -18,6 +18,10 @@
         <span>ListIt</span>
       </a>
       <p class="tagline">Post it. Find it. Done.</p>
+      <div class="header-tools">
+        <label for="display-currency" class="header-label">Show prices in</label>
+        <select id="display-currency" class="currency-select"></select>
+      </div>
     </div>
   </header>
 
@@ -74,6 +78,8 @@
         </div>
       </div>
 
+      <div class="rates-status" id="rates-status" role="status" aria-live="polite"></div>
+
       <div class="chips" id="category-chips" role="group" aria-label="Filter by category"></div>
 
       <p class="result-count" id="result-count" aria-live="polite"></p>
@@ -96,6 +102,7 @@
   <script src="js/view.js"></script>
   <script src="js/form.js"></script>
   <script src="js/filters.js"></script>
+  <script src="js/pricing.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

@@ -25,13 +25,22 @@
     const all = App.store.all();
     const visible = App.filters.apply(all, state);
 
-    App.view.renderGrid(els.grid, visible, state.query);
+    App.view.renderGrid(els.grid, visible, state.query, App.pricing.context());
     App.filters.renderChips(els.chips, all, state);
     els.empty.hidden = visible.length > 0;
     els.count.textContent = describeResults(visible.length, all.length);
   }
 
+  App.pricing.init({
+    select: document.getElementById('display-currency'),
+    statusEl: document.getElementById('rates-status'),
+    onChange: () => {
+      App.form.suggestCurrency(App.pricing.display);
+      refresh();
+    },
+  });
   App.form.init(document.getElementById('listing-form'), document.getElementById('form-status'));
+  App.form.suggestCurrency(App.pricing.display);
   App.filters.init({ search: els.search, chips: els.chips, state, onChange: refresh });
   App.store.subscribe(refresh);
   refresh();

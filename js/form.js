@@ -62,13 +62,23 @@
     select.value = list[wanted] ? wanted : 'USD';
   }
 
+  let currencySelect = null;
+  let currencyChosen = false;
+
+  /** Default the listing currency to the viewer's own, until they pick one explicitly. */
+  function suggestCurrency(code) {
+    if (!currencySelect || currencyChosen) return;
+    if ([...currencySelect.options].some((o) => o.value === code)) currencySelect.value = code;
+  }
+
   function init(form, statusEl) {
     const select = form.elements.category;
     App.CATEGORIES.forEach((c) => select.add(new Option(`${c.icon}  ${c.label}`, c.id)));
 
-    const currencySelect = form.elements.currency;
+    currencySelect = form.elements.currency;
     fillCurrencies(currencySelect, App.currency.FALLBACK_CURRENCIES, 'USD');
     App.currency.currencies().then((list) => fillCurrencies(currencySelect, list));
+    currencySelect.addEventListener('change', () => { currencyChosen = true; });
 
     let statusTimer;
     function flash(message) {
@@ -102,5 +112,5 @@
     });
   }
 
-  App.form = { init, validate };
+  App.form = { init, validate, suggestCurrency };
 })(window.App = window.App || {});

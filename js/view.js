@@ -8,9 +8,11 @@
     return String(value).replace(/[&<>"']/g, (ch) => ESCAPES[ch]);
   }
 
-  function formatMoney(amount, currency = 'USD') {
+  function formatMoney(amount, currency = 'USD', { approx = false } = {}) {
     try {
-      return new Intl.NumberFormat(undefined, { style: 'currency', currency }).format(amount);
+      // Converted prices are estimates: cents on a 4-digit number are just noise.
+      const options = approx && Math.abs(amount) >= 1000 ? { maximumFractionDigits: 0 } : {};
+      return new Intl.NumberFormat(undefined, { style: 'currency', currency, ...options }).format(amount);
     } catch {
       return `${Number(amount).toFixed(2)} ${currency}`;
     }
@@ -43,7 +45,25 @@
       .join('');
   }
 
-  function cardHtml(listing, query) {
+  /**
+   * Shows the price in the viewer's display currency when it differs from the listing's own,
+   * keeping the seller's original price underneath for transparency.
+   */
+  function priceHtml(listing, pricing) {
+    const original = formatMoney(listing.price, listing.currency);
+    const converted = pricing && listing.currency !== pricing.display
+      ? App.currency.toBase(pricing.table, listing.price, listing.currency)
+      : null;
+
+    if (converted === null) return `<span class="price">${original}</span>`;
+    return `
+      <span class="price-stack">
+        <span class="price" title="Converted from ${original} at ECB rates">≈ ${formatMoney(converted, pricing.display, { approx: true })}</span>
+        <span class="price-original">${original} listed</span>
+      </span>`;
+  }
+
+  function cardHtml(listing, query, pricing) {
     const cat = App.getCategory(listing.category);
     const posted = new Date(listing.createdAt);
     return `
@@ -54,16 +74,16 @@
           <h3 class="card-title">${highlight(listing.title, query)}</h3>
           ${listing.description ? `<p class="card-desc">${highlight(listing.description, query)}</p>` : ''}
           <div class="card-foot">
-            <span class="price">${formatMoney(listing.price, listing.currency)}</span>
+            ${priceHtml(listing, pricing)}
             <time class="time" datetime="${posted.toISOString()}" title="${posted.toLocaleString()}">${timeAgo(listing.createdAt)}</time>
           </div>
         </div>
       </li>`;
   }
 
-  function renderGrid(container, listings, query = '') {
-    container.innerHTML = listings.map((l) => cardHtml(l, query)).join('');
+  function renderGrid(container, listings, query = '', pricing = null) {
+    container.innerHTML = listings.map((l) => cardHtml(l, query, pricing)).join('');
   }
 
-  App.view = { escapeHtml, highlight, formatMoney, timeAgo, cardHtml, renderGrid };
+  App.view = { escapeHtml, highlight, formatMoney, timeAgo, priceHtml, cardHtml, renderGrid };
 })(window.App = window.App || {});
