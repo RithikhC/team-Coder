@@ -43,6 +43,34 @@ Currency conversion is built into posting, browsing and sorting.
     with a Retry button.
 - The rates date (ECB reference rates) is always shown, with credit to Frankfurter.
 
+### Round 3: Vanilla-only features (no new libraries)
+Everything below uses native web platform APIs only: no packages, CSS frameworks or
+component libraries. The project has **zero dependencies**, and never had any.
+
+- **Listing detail dialog** built on the native `<dialog>` element (focus trap, `Esc`, backdrop
+  click to close, focus returns to the card). It quotes the price in six currencies, with the
+  viewer's own currency highlighted.
+- **30-day price history chart**, drawn by hand in SVG (`js/sparkline.js`). It shows what the
+  item has cost in the viewer's currency each day, using Frankfurter's time-series endpoint.
+  - Read any day by hovering, touching, or using the arrow keys (it's focusable).
+  - Low, high and percentage change are summarised underneath.
+- **Edit and delete listings.** Editing reuses the post form. Deleting shows an **Undo** toast
+  instead of a blocking `confirm()`, and undo restores the listing to its original position.
+- **Saved listings (watchlist).** A heart button on every card and a ♥ Saved filter chip,
+  persisted locally.
+- **Price-range filter** in the viewer's currency. It compares converted prices, so "under
+  CHF 100" works across every seller's currency.
+- **Shareable URLs.** Search, category, sort, price range and saved-only are synced to the URL
+  hash (e.g. `#cat=furniture&sort=price-asc&max=200`). Links restore the exact view, and
+  back/forward and hand-edited hashes work too.
+- **Dark mode.** It follows the OS setting by default, the toggle is remembered, and an inline
+  `<head>` script applies the theme before first paint (no white flash). Every colour is a CSS
+  custom property.
+- **Accessibility:**
+  - one tab stop per card (stretched link pattern);
+  - `aria-pressed` toggles and live regions for results, errors and toasts;
+  - visible focus rings, a skip link, and `prefers-reduced-motion` support.
+
 ## Project structure
 
 ```
@@ -51,10 +79,17 @@ css/styles.css      design tokens (CSS variables) and all styles
 js/categories.js    category definitions (label, icon, colour hue)
 js/currency.js      Frankfurter API client: rates, currency list, quotes, caching
 js/pricing.js       viewer's display currency, rate loading and status banner
-js/store.js         listing store: localStorage persistence and change events
+js/store.js         listing store: localStorage persistence, CRUD and change events
+js/saved.js         saved-listings watchlist
 js/view.js          formatting helpers and card templates (HTML-escaped)
-js/form.js          post form: read, validate, submit
-js/filters.js       search, category filtering and sorting
+js/form.js          post and edit form: read, validate, submit, live price preview
+js/filters.js       search, category, saved, price range, sorting, URL-hash sync
+js/detail.js        listing detail <dialog> with multi-currency quotes
+js/sparkline.js     dependency-free interactive SVG line chart
+js/price-history.js 30-day cost chart section for the detail dialog
+js/toast.js         toast notifications with Undo actions
+js/manage.js        edit and delete actions
+js/theme.js         light/dark theme toggle
 js/app.js           bootstraps the modules and owns UI state
 ```
 
