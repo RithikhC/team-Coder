@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ListIt — Post & browse listings</title>
-  <meta name="description" content="ListIt: a lightweight marketplace to post and browse listings.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Ctext x='16' y='23' font-family='Arial' font-weight='700' font-size='20' text-anchor='middle' fill='white'%3EL%3C/text%3E%3C/svg%3E">
-  <meta name="theme-color" content="#ffffff">
+  <title>Plunder Port — the pirate loot exchange</title>
+  <meta name="description" content="Plunder Port: hoist yer loot on the harbour board and trade with pirates from every port, in any coin.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='88'%3E%F0%9F%8F%B4%E2%80%8D%E2%98%A0%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <meta name="theme-color" content="#3d2614">
   <link rel="stylesheet" href="css/styles.css">
   <script>
-    // Set the theme before first paint so dark-mode users never see a white flash.
+    // Set the theme before first paint so night-watch users never see a flash of daylight.
     (function () {
       var theme = null;
       try { theme = localStorage.getItem('listit.theme'); } catch (e) {}
@@ -19,17 +19,28 @@
   </script>
 </head>
 <body>
-  <a class="skip-link" href="#listings">Skip to listings</a>
+  <a class="skip-link" href="#listings">Skip to the loot board</a>
 
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="./">
-        <span class="brand-mark" aria-hidden="true">L</span>
-        <span>ListIt</span>
+        <svg class="brand-seal" viewBox="0 0 40 40" aria-hidden="true">
+          <circle cx="20" cy="20" r="18.5" class="seal-disc"/>
+          <g class="seal-bones">
+            <path d="M9.5 29.5 30.5 10.5M9.5 10.5l21 19"/>
+            <circle cx="9" cy="30" r="2"/><circle cx="31" cy="30" r="2"/>
+            <circle cx="9" cy="10" r="2"/><circle cx="31" cy="10" r="2"/>
+          </g>
+          <path class="seal-skull" d="M20 8.5c-5.2 0-8.8 3.5-8.8 8.1 0 2.7 1.2 4.5 3.1 5.5v2.8c0 .9.7 1.6 1.6 1.6h8.2c.9 0 1.6-.7 1.6-1.6v-2.8c1.9-1 3.1-2.8 3.1-5.5 0-4.6-3.6-8.1-8.8-8.1z"/>
+          <circle class="seal-hole" cx="16.6" cy="16.8" r="2.2"/>
+          <circle class="seal-hole" cx="23.4" cy="16.8" r="2.2"/>
+          <path class="seal-hole" d="M20 19.6l-1.4 2.5h2.8z"/>
+        </svg>
+        <span>Plunder Port</span>
       </a>
-      <p class="tagline">Post it. Find it. Done.</p>
+      <p class="tagline">Loot traded fair, from every port o’ call.</p>
       <div class="header-tools">
-        <label for="display-currency" class="header-label">Show prices in</label>
+        <label for="display-currency" class="header-label">Count yer coin in</label>
         <select id="display-currency" class="currency-select"></select>
         <button type="button" class="icon-btn" id="theme-toggle" aria-label="Switch theme">
           <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
@@ -41,23 +52,23 @@
 
   <main class="container layout">
     <aside class="panel post-panel" aria-labelledby="post-heading">
-      <h2 id="post-heading">Post a listing</h2>
-      <p class="panel-sub">It takes ten seconds. No account needed.</p>
+      <h2 id="post-heading">Stash yer loot</h2>
+      <p class="panel-sub">Hoist it on the harbour board. No names, no questions.</p>
 
       <form id="listing-form" novalidate>
         <div class="field">
-          <label for="title">Title</label>
+          <label for="title">Name o’ the loot</label>
           <input id="title" name="title" type="text" maxlength="80" required
-                 placeholder="e.g. Vintage road bike" autocomplete="off">
+                 placeholder="e.g. Brass spyglass, barely dented" autocomplete="off">
           <p class="error" data-error-for="title" aria-live="polite"></p>
         </div>
 
         <div class="field">
-          <label for="price">Price</label>
+          <label for="price">Askin’ price</label>
           <div class="price-row">
             <input id="price" name="price" type="number" min="0" step="0.01" required
                    inputmode="decimal" placeholder="0.00">
-            <label for="currency" class="visually-hidden">Currency</label>
+            <label for="currency" class="visually-hidden">Coin</label>
             <select id="currency" name="currency" class="currency-select"></select>
           </div>
           <p class="error" data-error-for="price" aria-live="polite"></p>
@@ -65,61 +76,61 @@
         </div>
 
         <div class="field">
-          <label for="category">Category</label>
+          <label for="category">Stow it in the…</label>
           <select id="category" name="category" required>
-            <option value="">Choose a category…</option>
+            <option value="">Pick a hold…</option>
           </select>
           <p class="error" data-error-for="category" aria-live="polite"></p>
         </div>
 
         <div class="field">
-          <label for="description">Description <span class="optional">(optional)</span></label>
+          <label for="description">Tale o’ the loot <span class="optional">(if ye must)</span></label>
           <textarea id="description" name="description" rows="3" maxlength="300"
-                    placeholder="Condition, size, pickup details…"></textarea>
+                    placeholder="Where ye found it, what shape it’s in, which port to collect from…"></textarea>
         </div>
 
-        <button class="btn btn-primary btn-block" type="submit">Post listing</button>
-        <button class="btn btn-ghost btn-block cancel-edit" type="button" id="cancel-edit" hidden>Cancel editing</button>
+        <button class="btn btn-primary btn-block" type="submit">⚓&#xFE0E; Hoist the loot</button>
+        <button class="btn btn-ghost btn-block cancel-edit" type="button" id="cancel-edit" hidden>Belay that — cancel</button>
         <p class="form-status" id="form-status" role="status"></p>
       </form>
     </aside>
 
     <section class="browse" aria-labelledby="browse-heading">
-      <h2 id="browse-heading" class="visually-hidden">Browse listings</h2>
+      <h2 id="browse-heading" class="visually-hidden">The loot board</h2>
 
       <div class="toolbar">
         <div class="search">
-          <label for="search" class="visually-hidden">Search listings</label>
-          <input id="search" type="search" placeholder="Search listings…  (press / to focus)" autocomplete="off">
+          <label for="search" class="visually-hidden">Search the loot</label>
+          <input id="search" type="search" placeholder="Search the loot board…  (press / to spy)" autocomplete="off">
         </div>
         <div class="price-range" role="group" aria-labelledby="range-label">
-          <span class="range-label" id="range-label">Price <span id="range-currency">USD</span></span>
-          <input id="min-price" type="number" min="0" step="any" inputmode="decimal" placeholder="Min" aria-label="Minimum price">
+          <span class="range-label" id="range-label">Bounty <span id="range-currency">USD</span></span>
+          <input id="min-price" type="number" min="0" step="any" inputmode="decimal" placeholder="From" aria-label="Lowest bounty">
           <span class="range-sep" aria-hidden="true">–</span>
-          <input id="max-price" type="number" min="0" step="any" inputmode="decimal" placeholder="Max" aria-label="Maximum price">
+          <input id="max-price" type="number" min="0" step="any" inputmode="decimal" placeholder="To" aria-label="Highest bounty">
         </div>
         <div class="sort">
-          <label for="sort" class="visually-hidden">Sort listings</label>
+          <label for="sort" class="visually-hidden">Order the loot</label>
           <select id="sort">
-            <option value="newest">Newest first</option>
-            <option value="oldest">Oldest first</option>
-            <option value="price-asc">Price: low → high</option>
-            <option value="price-desc">Price: high → low</option>
+            <option value="newest">Freshest plunder</option>
+            <option value="oldest">Oldest plunder</option>
+            <option value="price-asc">Cheapest first</option>
+            <option value="price-desc">Richest first</option>
           </select>
         </div>
       </div>
 
       <div class="rates-status" id="rates-status" role="status" aria-live="polite"></div>
 
-      <div class="chips" id="category-chips" role="group" aria-label="Filter by category"></div>
+      <div class="chips" id="category-chips" role="group" aria-label="Filter by hold"></div>
 
       <p class="result-count" id="result-count" aria-live="polite"></p>
       <ul class="grid" id="listings"></ul>
 
       <div class="empty" id="empty-state" hidden>
-        <p class="empty-title">No listings match.</p>
-        <p>Try a different search, category or price range — or post the first one!</p>
-        <button type="button" class="btn btn-ghost" data-action="clear-filters">Clear all filters</button>
+        <p class="empty-title">Nothin’ but barnacles here, matey.</p>
+        <p>No loot matches — try another hold, name or bounty. Or be the first to stash some!</p>
+        <button type="button" class="btn btn-ghost" data-action="clear-filters">Scuttle all filters</button>
       </div>
     </section>
   </main>
@@ -131,7 +142,9 @@
   <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
 
   <footer class="site-footer">
-    <div class="container">Built for Code &amp; Chaos · Team Coder</div>
+    <div class="container">
+      Dead men tell no tales — but our loot board does. · Built for Code &amp; Chaos by Team Coder
+    </div>
   </footer>
 
   <script src="js/categories.js"></script>
