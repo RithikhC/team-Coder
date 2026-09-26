@@ -63,12 +63,23 @@
       </span>`;
   }
 
+  function saveButtonHtml(listing) {
+    const saved = App.saved.has(listing.id);
+    return `
+      <button type="button" class="save-btn" data-action="save" aria-pressed="${saved}"
+              aria-label="${saved ? 'Remove from saved' : 'Save'}: ${escapeHtml(listing.title)}"
+              title="${saved ? 'Saved' : 'Save for later'}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.8 4.5c2.1 0 3.6 1.1 4.3 2.4h1.8c.7-1.3 2.2-2.4 4.3-2.4 3.8 0 5.9 3.9 4.4 7.3C19.5 16.4 12 21 12 21z"/></svg>
+      </button>`;
+  }
+
   function cardHtml(listing, query, pricing) {
     const cat = App.getCategory(listing.category);
     const posted = new Date(listing.createdAt);
     return `
       <li class="card" style="--hue:${cat.hue}" data-id="${escapeHtml(listing.id)}">
         <div class="card-media" aria-hidden="true">${cat.icon}</div>
+        ${saveButtonHtml(listing)}
         <div class="card-body">
           <span class="card-cat">${escapeHtml(cat.label)}</span>
           <h3 class="card-title">

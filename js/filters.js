@@ -8,6 +8,7 @@
 
   function matches(listing, state) {
     if (state.category !== 'all' && listing.category !== state.category) return false;
+    if (state.saved && !App.saved.has(listing.id)) return false;
 
     const words = terms(state.query);
     if (!words.length) return true;
@@ -58,7 +59,15 @@
         <span class="chip-count">${count}</span>
       </button>`;
 
+    const savedCount = App.saved.count(listings);
+    const savedChip = savedCount || state.saved
+      ? `<button type="button" class="chip chip-saved" data-filter="saved" aria-pressed="${state.saved}">
+           <span aria-hidden="true">♥</span>Saved <span class="chip-count">${savedCount}</span>
+         </button><span class="chip-divider" aria-hidden="true"></span>`
+      : '';
+
     container.innerHTML = [
+      savedChip,
       chip('all', 'All', '', listings.length),
       ...App.CATEGORIES
         .filter((c) => counts[c.id] || state.category === c.id)
@@ -91,6 +100,13 @@
     });
 
     chips.addEventListener('click', (event) => {
+      if (event.target.closest('[data-filter="saved"]')) {
+        state.saved = !state.saved;
+        onChange();
+        chips.querySelector('[data-filter="saved"]')?.focus();
+        return;
+      }
+
       const button = event.target.closest('[data-category]');
       if (!button) return;
       const id = button.dataset.category;

@@ -310,6 +310,30 @@ mark { padding: 0 1px; background: var(--highlight); color: inherit; border-radi
 .card-open:focus-visible { outline: none; }
 .card:has(.card-open:focus-visible) { outline: 3px solid var(--primary); outline-offset: 2px; }
 
+.save-btn {
+  position: absolute; top: 10px; right: 10px; z-index: 2;
+  display: grid; place-items: center;
+  width: 36px; height: 36px;
+  color: #6b7185;
+  background: rgba(255, 255, 255, .9);
+  border: 0; border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(16, 24, 40, .15);
+  cursor: pointer;
+  transition: transform .12s ease, color .12s ease;
+}
+.save-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }
+.save-btn:hover { transform: scale(1.08); color: #e0245e; }
+.save-btn:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+.save-btn[aria-pressed="true"] { color: #e0245e; }
+.save-btn[aria-pressed="true"] svg { fill: currentColor; animation: pop .25s ease; }
+
+@keyframes pop { 50% { transform: scale(1.3); } }
+
+.chip-saved[aria-pressed="true"] { background: #e0245e; border-color: #e0245e; }
+.chip-saved > span[aria-hidden] { color: #e0245e; }
+.chip-saved[aria-pressed="true"] > span[aria-hidden] { color: inherit; }
+.chip-divider { width: 1px; align-self: stretch; margin-inline: 2px; background: var(--border); }
+
 /* ---------- Detail dialog ---------- */
 
 .dialog {
