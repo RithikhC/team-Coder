@@ -1,14 +1,35 @@
-/* Browse filters: keyword search + category chips. */
+/* Browse filters: keyword search, category chips, saved-only, price range and sorting. */
 (function (App) {
   'use strict';
+
+  const SORT_MODES = ['newest', 'oldest', 'price-asc', 'price-desc'];
+
+  const DEFAULTS = Object.freeze({
+    query: '', category: 'all', sort: 'newest', saved: false, min: null, max: null,
+  });
 
   function terms(query) {
     return query.toLowerCase().split(/\s+/).filter(Boolean);
   }
 
-  function matches(listing, state) {
+  function isFiltered(state) {
+    return Boolean(state.query || state.category !== 'all' || state.saved || state.min !== null || state.max !== null);
+  }
+
+  /** Price bounds are in the viewer's display currency, compared against converted prices. */
+  function inPriceRange(listing, state, valueOf) {
+    if (state.min === null && state.max === null) return true;
+    const value = valueOf(listing);
+    if (value === null) return true; // can't convert yet, so don't hide it
+    if (state.min !== null && value < state.min) return false;
+    if (state.max !== null && value > state.max) return false;
+    return true;
+  }
+
+  function matches(listing, state, valueOf) {
     if (state.category !== 'all' && listing.category !== state.category) return false;
     if (state.saved && !App.saved.has(listing.id)) return false;
+    if (!inPriceRange(listing, state, valueOf)) return false;
 
     const words = terms(state.query);
     if (!words.length) return true;
@@ -21,8 +42,8 @@
     return words.every((w) => haystack.includes(w));
   }
 
-  function apply(listings, state) {
-    return listings.filter((l) => matches(l, state));
+  function apply(listings, state, valueOf) {
+    return listings.filter((l) => matches(l, state, valueOf));
   }
 
   const SORTERS = {
@@ -75,21 +96,81 @@
     ].join('');
   }
 
-  function init({ search, chips, sortSelect, state, onChange }) {
+  const parseBound = (value) => {
+    if (value === null || String(value).trim() === '') return null;
+    const n = Number(value);
+    return Number.isFinite(n) && n >= 0 ? n : null;
+  };
+
+  /* ---------- URL <-> state (so filtered views can be bookmarked and shared) ---------- */
+
+  function readHash(state) {
+    const p = new URLSearchParams(location.hash.slice(1));
+    state.query = (p.get('q') || '').trim();
+    state.category = App.isCategory(p.get('cat')) ? p.get('cat') : 'all';
+    state.sort = SORT_MODES.includes(p.get('sort')) ? p.get('sort') : DEFAULTS.sort;
+    state.saved = p.get('saved') === '1';
+    state.min = parseBound(p.get('min'));
+    state.max = parseBound(p.get('max'));
+  }
+
+  function writeHash(state) {
+    const p = new URLSearchParams();
+    if (state.query) p.set('q', state.query);
+    if (state.category !== 'all') p.set('cat', state.category);
+    if (state.sort !== DEFAULTS.sort) p.set('sort', state.sort);
+    if (state.saved) p.set('saved', '1');
+    if (state.min !== null) p.set('min', state.min);
+    if (state.max !== null) p.set('max', state.max);
+
+    const hash = p.toString();
+    if (hash === location.hash.slice(1)) return;
+    history.replaceState(null, '', hash ? `#${hash}` : location.pathname + location.search);
+  }
+
+  /* ---------- Controls ---------- */
+
+  let controls = null;
+
+  function syncControls(state) {
+    const { search, sortSelect, minInput, maxInput } = controls;
+    if (search.value.trim() !== state.query) search.value = state.query;
     sortSelect.value = state.sort;
+    if (parseBound(minInput.value) !== state.min) minInput.value = state.min ?? '';
+    if (parseBound(maxInput.value) !== state.max) maxInput.value = state.max ?? '';
+  }
+
+  function reset(state) {
+    Object.assign(state, DEFAULTS);
+    syncControls(state);
+  }
+
+  function init({ search, chips, sortSelect, minInput, maxInput, state, onChange }) {
+    controls = { search, sortSelect, minInput, maxInput };
+    readHash(state);
+    syncControls(state);
+
+    window.addEventListener('hashchange', () => {
+      readHash(state);
+      syncControls(state);
+      onChange();
+    });
+
     sortSelect.addEventListener('change', () => {
       state.sort = sortSelect.value;
       onChange();
     });
 
     let debounce;
-    search.addEventListener('input', () => {
+    const later = (fn) => {
       clearTimeout(debounce);
-      debounce = setTimeout(() => {
-        state.query = search.value.trim();
-        onChange();
-      }, 120);
-    });
+      debounce = setTimeout(fn, 150);
+    };
+
+    search.addEventListener('input', () => later(() => {
+      state.query = search.value.trim();
+      onChange();
+    }));
 
     search.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && search.value) {
@@ -97,6 +178,14 @@
         state.query = '';
         onChange();
       }
+    });
+
+    [minInput, maxInput].forEach((input) => {
+      input.addEventListener('input', () => later(() => {
+        state.min = parseBound(minInput.value);
+        state.max = parseBound(maxInput.value);
+        onChange();
+      }));
     });
 
     chips.addEventListener('click', (event) => {
@@ -124,5 +213,5 @@
     });
   }
 
-  App.filters = { apply, sort, renderChips, init, terms };
+  App.filters = { apply, sort, renderChips, init, reset, terms, isFiltered, writeHash };
 })(window.App = window.App || {});

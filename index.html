@@ -78,6 +78,12 @@
           <label for="search" class="visually-hidden">Search listings</label>
           <input id="search" type="search" placeholder="Search listings…  (press / to focus)" autocomplete="off">
         </div>
+        <div class="price-range" role="group" aria-labelledby="range-label">
+          <span class="range-label" id="range-label">Price <span id="range-currency">USD</span></span>
+          <input id="min-price" type="number" min="0" step="any" inputmode="decimal" placeholder="Min" aria-label="Minimum price">
+          <span class="range-sep" aria-hidden="true">–</span>
+          <input id="max-price" type="number" min="0" step="any" inputmode="decimal" placeholder="Max" aria-label="Maximum price">
+        </div>
         <div class="sort">
           <label for="sort" class="visually-hidden">Sort listings</label>
           <select id="sort">
@@ -98,7 +104,8 @@
 
       <div class="empty" id="empty-state" hidden>
         <p class="empty-title">No listings match.</p>
-        <p>Try a different search or category — or post the first one!</p>
+        <p>Try a different search, category or price range — or post the first one!</p>
+        <button type="button" class="btn btn-ghost" data-action="clear-filters">Clear all filters</button>
       </div>
     </section>
   </main>
