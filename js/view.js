@@ -71,7 +71,9 @@
         <div class="card-media" aria-hidden="true">${cat.icon}</div>
         <div class="card-body">
           <span class="card-cat">${escapeHtml(cat.label)}</span>
-          <h3 class="card-title">${highlight(listing.title, query)}</h3>
+          <h3 class="card-title">
+            <button type="button" class="card-open" data-action="open">${highlight(listing.title, query)}</button>
+          </h3>
           ${listing.description ? `<p class="card-desc">${highlight(listing.description, query)}</p>` : ''}
           <div class="card-foot">
             ${priceHtml(listing, pricing)}

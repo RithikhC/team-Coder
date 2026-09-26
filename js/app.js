@@ -48,6 +48,7 @@
     state,
     onChange: refresh,
   });
+  App.detail.init({ grid: els.grid });
   App.store.subscribe(refresh);
   refresh();
 })(window.App = window.App || {});

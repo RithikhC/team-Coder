@@ -71,6 +71,10 @@
       return listings.slice();
     },
 
+    get(id) {
+      return listings.find((l) => l.id === id) || null;
+    },
+
     add(input) {
       const listing = { id: uid(), ...normalize(input), createdAt: Date.now() };
       listings.unshift(listing);
